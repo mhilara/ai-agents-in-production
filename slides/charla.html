@@ -111,6 +111,25 @@ section{z-index:1}
 .hu{paint-order:stroke;filter:drop-shadow(0 6px 26px rgba(0,0,0,.65))}
 .src{fill:#5a6b80;font-family:Inter,sans-serif;font-size:13px;letter-spacing:.04em}
 .chip{fill:#93a4b8;font-family:Inter,sans-serif;font-size:14px;font-weight:600}
+
+#ctl{position:fixed;right:2.4vw;bottom:6.5vh;z-index:7;display:flex;gap:10px;align-items:center;
+  opacity:.28;transition:opacity .25s}
+#ctl:hover,#ctl.show{opacity:1}
+#ctl button{width:42px;height:42px;border-radius:11px;cursor:pointer;
+  background:rgba(22,28,36,.92);border:1px solid #2f3b4a;color:#c8d4e0;
+  display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);
+  transition:border-color .2s,color .2s,transform .12s}
+#ctl button:hover{border-color:var(--accent);color:var(--accent)}
+#ctl button:active{transform:scale(.94)}
+#ctl svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+#hint{position:fixed;left:50%;top:3vh;transform:translateX(-50%);z-index:8;
+  background:rgba(10,14,20,.94);border:1px solid #33404f;border-radius:999px;
+  padding:9px 20px;font-size:14px;color:#c8d4e0;backdrop-filter:blur(10px);
+  box-shadow:0 12px 40px rgba(0,0,0,.55);animation:hintout .6s 5.2s forwards}
+#hint b{color:var(--accent)}
+@keyframes hintout{to{opacity:0;visibility:hidden}}
+@media print{#ctl,#hint{display:none}}
 @media print{body{overflow:visible}section{display:block!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
 </style>
 </head>
@@ -545,6 +564,113 @@ section{z-index:1}
   </div>
 </section>
 
+<section data-notes="<b>5:50–6:40</b> · Explicá la sigla sin jerga. RAG son tres palabras. Recuperación: antes de responder, el sistema busca en documentos propios, los de tu equipo, no en lo que el modelo aprendió en internet. Aumentada: lo que encontró se le suma a la pregunta, como si le pasaras la hoja del manual abierta en la página correcta. Generación: recién ahí el modelo responde, y responde con eso a la vista. La frase para dejar: sin RAG el modelo contesta con lo que recuerda del mundo; con RAG contesta con lo que sabe tu equipo.">
+  <div class="diagwrap">
+    <div class="kicker an">Qué es RAG</div>
+    <div class="fill">
+    <svg class="diag" viewBox="0 0 1180 560">
+      <g class="an" style="--d:.1s">
+        <text class="hu" x="40" y="130" font-size="104" style="fill:#FF9900">R</text>
+        <text class="lb2" x="140" y="106">Recuperación</text>
+        <text class="lb3" x="140" y="136">busca en los documentos de tu equipo</text>
+      </g>
+      <g class="an" style="--d:.28s">
+        <text class="hu" x="40" y="260" font-size="104" style="fill:#FF9900">A</text>
+        <text class="lb2" x="140" y="236">Aumentada</text>
+        <text class="lb3" x="140" y="266">lo encontrado se suma a la pregunta</text>
+      </g>
+      <g class="an" style="--d:.46s">
+        <text class="hu" x="40" y="390" font-size="104" style="fill:#FF9900">G</text>
+        <text class="lb2" x="140" y="366">Generación</text>
+        <text class="lb3" x="140" y="396">el modelo responde con eso a la vista</text>
+      </g>
+
+      <line class="ln an" style="--d:.6s" x1="620" y1="40" x2="620" y2="430" opacity=".35"/>
+
+      <g class="an" style="--d:.68s">
+        <rect class="box" x="676" y="60" width="200" height="66" rx="12"/>
+        <text class="lb3" x="700" y="100">pregunta del operador</text>
+      </g>
+      <path class="lna draw" style="--d:.86s;--len:44" d="M776 132 L776 168" marker-end="url(#a)"/>
+      <g class="an" style="--d:.9s">
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.6" x="676" y="174" width="200" height="66" rx="12"/>
+        <use href="#b-qdrant" x="700" y="190" width="24" height="24"/>
+        <text class="lb3" x="734" y="208">buscar</text>
+        <text class="lb3" x="700" y="230">por significado</text>
+      </g>
+      <path class="lna draw" style="--d:1.05s;--len:44" d="M776 246 L776 282" marker-end="url(#a)"/>
+      <g class="an" style="--d:1.1s">
+        <rect class="box" x="676" y="288" width="200" height="66" rx="12"/>
+        <text class="lb3" x="700" y="316">el runbook correcto</text>
+        <text class="lb3" x="700" y="340">+ la pregunta</text>
+      </g>
+      <path class="lna draw" style="--d:1.25s;--len:44" d="M776 360 L776 396" marker-end="url(#a)"/>
+      <g class="an" style="--d:1.3s">
+        <rect fill="url(#gacc)" stroke="#4ade80" stroke-width="1.6" x="676" y="402" width="200" height="66" rx="12"/>
+        <use href="#b-claude" x="700" y="418" width="24" height="24"/>
+        <text class="lb3" x="734" y="436" style="fill:#5ee89a">respuesta</text>
+        <text class="lb3" x="700" y="458">con procedimiento</text>
+      </g>
+
+      <g class="an" style="--d:1.5s">
+        <text class="lb3" x="40" y="480" style="fill:#c8d4e0">Sin RAG el modelo contesta con lo que recuerda del mundo.</text>
+        <text class="lb2" x="40" y="516" style="fill:#FF9900">Con RAG contesta con lo que sabe tu equipo.</text>
+      </g>
+    </svg>
+    </div>
+  </div>
+</section>
+
+<section data-notes="<b>6:40–7:30</b> · Qué es memoria y cómo se estructura. Son tres capas con vidas distintas. La primera son las instrucciones: un archivo de reglas duras que se carga entero en cada sesión, siempre. La segunda es la memoria operativa: un índice corto y un archivo por tema, que se escribe solo cuando el agente aprende algo o el operador lo corrige; esa se lee cuando hace falta. La tercera es la vectorial: recaps y runbooks que no se leen enteros nunca, se buscan por significado. La diferencia clave con un chat: un chat recuerda mientras dura la conversación y después olvida. Esto persiste entre sesiones, entre días, y entre personas del equipo.">
+  <div class="diagwrap">
+    <div class="kicker an">Qué es memoria</div>
+    <div class="fill">
+    <svg class="diag" viewBox="0 0 1180 560">
+      <g class="an" style="--d:.1s">
+        <rect class="box" x="20" y="50" width="1140" height="128" rx="14"/>
+        <text class="hu" x="52" y="130" font-size="58" style="fill:#FF9900">1</text>
+        <text class="lb2" x="130" y="98">Instrucciones</text>
+        <text class="lb3" x="130" y="128">las reglas duras: qué herramienta va primero, qué está prohibido</text>
+        <text class="mn2" x="130" y="160" style="fill:#FF9900;font-size:19px">CLAUDE.md</text>
+        <rect x="900" y="92" width="228" height="34" rx="17" fill="#05080c" stroke="#4ade80" stroke-width="1.2"/>
+        <text class="chip" x="1014" y="114" text-anchor="middle" style="fill:#5ee89a">se carga entera, siempre</text>
+        <text class="src" x="900" y="152">en cada sesión, sin excepción</text>
+      </g>
+
+      <g class="an" style="--d:.3s">
+        <rect class="box" x="20" y="196" width="1140" height="128" rx="14"/>
+        <text class="hu" x="52" y="276" font-size="58" style="fill:#FF9900">2</text>
+        <text class="lb2" x="130" y="244">Memoria operativa</text>
+        <text class="lb3" x="130" y="274">índice corto y un archivo por tema: incidentes, lecciones, correcciones</text>
+        <text class="mn2" x="130" y="306" style="fill:#FF9900;font-size:19px">MEMORY.md + memory/*.md</text>
+        <rect x="900" y="238" width="228" height="34" rx="17" fill="#05080c" stroke="#FF9900" stroke-width="1.2"/>
+        <text class="chip" x="1014" y="260" text-anchor="middle" style="fill:#FF9900">se escribe al aprender</text>
+        <text class="src" x="900" y="298">se lee cuando hace falta</text>
+      </g>
+
+      <g class="an" style="--d:.5s">
+        <rect class="box" x="20" y="342" width="1140" height="128" rx="14"/>
+        <text class="hu" x="52" y="422" font-size="58" style="fill:#FF9900">3</text>
+        <text class="lb2" x="130" y="390">Vectorial</text>
+        <text class="lb3" x="130" y="420">runbooks y recaps que nunca se leen enteros: se buscan por significado</text>
+        <g transform="translate(130,434)">
+          <use href="#b-qdrant" x="0" y="0" width="22" height="22"/>
+          <text class="mn2" x="32" y="17" style="fill:#FF9900;font-size:19px">Qdrant</text>
+        </g>
+        <rect x="900" y="384" width="228" height="34" rx="17" fill="#05080c" stroke="#5CC8E8" stroke-width="1.2"/>
+        <text class="chip" x="1014" y="406" text-anchor="middle" style="fill:#5CC8E8">se recupera, no se lee</text>
+        <text class="src" x="900" y="444">solo el fragmento que aplica</text>
+      </g>
+
+      <g class="an" style="--d:.7s">
+        <text class="lb3" x="20" y="516" style="fill:#c8d4e0">Un chat recuerda mientras dura la conversación.</text>
+        <text class="lb2" x="560" y="516" style="fill:#FF9900">Esto persiste entre sesiones, días y personas.</text>
+      </g>
+    </svg>
+    </div>
+  </div>
+</section>
+
 <section data-notes="<b>5:50–6:50</b> · Cómo el agente encuentra el procedimiento correcto. Los documentos del equipo se parten en fragmentos, cada fragmento se convierte en un vector que representa su significado, y eso se guarda en Qdrant. Después, la pregunta del operador se convierte en un vector y se comparan significados, no palabras. Mirá la consulta: la pregunta dice 'el servicio se reinicia todo el tiempo' y encuentra el runbook de crash loop en ECS con un score de 0.60. La pregunta no contenía ninguna palabra del documento. Eso es lo que separa esto de un buscador de texto. Un detalle técnico que importa: se indexa por fragmentos y no documentos enteros, porque un documento largo en un solo vector se diluye y deja de recuperarse.">
   <div class="diagwrap">
     <div class="kicker an">Memoria</div>
@@ -725,6 +851,79 @@ section{z-index:1}
   </div>
 </section>
 
+<section data-notes="<b>9:30–10:00</b> · Este es el orden exacto de lo que van a ver, para que sigan la demo sin perderse. Leelo rápido, señalando cada paso, y arrancá. Si algo falla en vivo, el plan B está en el runbook del repositorio.">
+  <div class="diagwrap">
+    <div class="kicker an">La demo, paso a paso</div>
+    <div class="fill">
+    <svg class="diag" viewBox="0 0 1180 560">
+            <g class="an" style="--d:0.10s">
+        <rect class="box" x="20" y="30" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="65" style="fill:#FF9900;font-size:20px">01</text>
+        <use href="#b-amazonecs" x="96" y="45" width="24" height="24"/>
+        <text class="lb2" x="136" y="65" style="font-size:21px">Un servicio de ingesta sano en AWS</text>
+        <text class="src" x="700" y="65" style="font-size:15px">curl → ingest-api v1.4.0 | ok</text>
+      </g>
+      <g class="an" style="--d:0.18s">
+        <rect class="box" x="20" y="94" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="129" style="fill:#FF9900;font-size:20px">02</text>
+        <use href="#b-githubactions" x="96" y="109" width="24" height="24"/>
+        <text class="lb2" x="136" y="129" style="font-size:21px">Le pido en español que despliegue la versión nueva</text>
+        <text class="src" x="700" y="129" style="font-size:15px">el agente edita el IaC y hace push</text>
+      </g>
+      <g class="an" style="--d:0.26s">
+        <rect class="box" x="20" y="158" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="193" style="fill:#FF9900;font-size:20px">03</text>
+        <use href="#b-terraform" x="96" y="173" width="24" height="24"/>
+        <text class="lb2" x="136" y="193" style="font-size:21px">El pipeline aplica por OIDC, sin llaves guardadas</text>
+        <text class="src" x="700" y="193" style="font-size:15px">curl → ingest-api v1.5.0 | ok</text>
+      </g>
+      <g class="an" style="--d:0.34s">
+        <rect class="box" x="20" y="222" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="257" style="fill:#ff6b6b;font-size:20px">04</text>
+        <use href="#b-amazonec2" x="96" y="237" width="24" height="24"/>
+        <text class="lb2" x="136" y="257" style="font-size:21px">Alguien despliega a mano, fuera del pipeline</text>
+        <text class="src" x="700" y="257" style="font-size:15px">crash loop en 60 segundos</text>
+      </g>
+      <g class="an" style="--d:0.42s">
+        <rect class="box" x="20" y="286" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="321" style="fill:#5CC8E8;font-size:20px">05</text>
+        <use href="#b-qdrant" x="96" y="301" width="24" height="24"/>
+        <text class="lb2" x="136" y="321" style="font-size:21px">El agente recupera el runbook por significado</text>
+        <text class="src" x="700" y="321" style="font-size:15px">0.600 → ECS en crash loop</text>
+      </g>
+      <g class="an" style="--d:0.50s">
+        <rect class="box" x="20" y="350" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="385" style="fill:#5CC8E8;font-size:20px">06</text>
+        <use href="#b-amazoncloudwatch" x="96" y="365" width="24" height="24"/>
+        <text class="lb2" x="136" y="385" style="font-size:21px">Diagnostica con rol de solo lectura</text>
+        <text class="src" x="700" y="385" style="font-size:15px">exit 1 · FATAL: APP_MESSAGE no está definida</text>
+      </g>
+      <g class="an" style="--d:0.58s">
+        <rect class="box" x="20" y="414" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="449" style="fill:#ff6b6b;font-size:20px">07</text>
+        <use href="#b-awssecretsmanager" x="96" y="429" width="24" height="24"/>
+        <text class="lb2" x="136" y="449" style="font-size:21px">Intenta escribir el fix y la IAM lo frena</text>
+        <text class="src" x="700" y="449" style="font-size:15px">AccessDenied — explicit deny</text>
+      </g>
+      <g class="an" style="--d:0.66s">
+        <rect class="box" x="20" y="478" width="1140" height="54" rx="10"/>
+        <text class="mn2" x="44" y="513" style="fill:#5ee89a;font-size:20px">08</text>
+        <use href="#b-claude" x="96" y="493" width="24" height="24"/>
+        <text class="lb2" x="136" y="513" style="font-size:21px">El fix vuelve por el pipeline y guarda la lección</text>
+        <text class="src" x="700" y="513" style="font-size:15px">y mañana la recupera</text>
+      </g>
+    </svg>
+    </div>
+  </div>
+</section>
+
+<div id="hint">Usá <b>→</b> para avanzar · <b>F</b> pantalla completa · <b>N</b> notas del orador</div>
+<div id="ctl">
+  <button id="bprev" title="Anterior (←)"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg></button>
+  <button id="bnext" title="Siguiente (→)"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button id="bnotes" title="Notas del orador (N)"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8.5 9h7M8.5 13h7M8.5 17h4"/></svg></button>
+  <button id="bfs" title="Pantalla completa (F)"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
 <footer><span>Agentes de IA que operan producción</span><span id="fnum"></span></footer>
 <div id="notes"></div>
 
@@ -743,9 +942,20 @@ addEventListener('keydown',e=>{
   else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){show(i-1);e.preventDefault();}
   else if(e.key==='Home')show(0); else if(e.key==='End')show(S.length-1);
   else if(e.key.toLowerCase()==='n'){notesOn=!notesOn;notes.classList.toggle('on',notesOn);}
-  else if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.();
+  else if(e.key.toLowerCase()==='f')fs();
 });
-addEventListener('click',e=>{if(!notes.contains(e.target))show(i+1);});
+addEventListener('click',e=>{if(!notes.contains(e.target)&&!ctl.contains(e.target))show(i+1);});
+const ctl=document.getElementById('ctl');
+function fs(){ if(document.fullscreenElement){document.exitFullscreen();} else {document.documentElement.requestFullscreen?.();} }
+document.getElementById('bnext').onclick=e=>{e.stopPropagation();show(i+1)};
+document.getElementById('bprev').onclick=e=>{e.stopPropagation();show(i-1)};
+document.getElementById('bfs').onclick=e=>{e.stopPropagation();fs()};
+document.getElementById('bnotes').onclick=e=>{e.stopPropagation();notesOn=!notesOn;notes.classList.toggle('on',notesOn)};
+let mt;addEventListener('mousemove',()=>{ctl.classList.add('show');clearTimeout(mt);mt=setTimeout(()=>ctl.classList.remove('show'),2200)});
+let sx=null;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+addEventListener('touchend',e=>{if(sx===null)return;const d=e.changedTouches[0].clientX-sx;
+  if(Math.abs(d)>60)show(i+(d<0?1:-1));sx=null},{passive:true});
+
 show(parseInt(location.hash.slice(1))-1||0);
 </script>
 </body>
