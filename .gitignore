@@ -1,0 +1,8 @@
+.env
+.venv/
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
+.DS_Store
+backend.hcl

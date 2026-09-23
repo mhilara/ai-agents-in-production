@@ -1,0 +1,2 @@
+# cp backend.hcl.example backend.hcl y poner el bucket de state de tu cuenta
+bucket = "TU-BUCKET-DE-STATE"
