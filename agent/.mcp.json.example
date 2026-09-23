@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "aws": {
+      "command": "sh",
+      "args": ["-c", ". ~/.secrets && exec uvx awslabs.aws-api-mcp-server@latest"],
+      "env": {
+        "AWS_PROFILE": "dataplat-ro",
+        "AWS_REGION": "us-east-2",
+        "READ_ONLY": "true"
+      }
+    },
+    "cloudwatch": {
+      "command": "sh",
+      "args": ["-c", ". ~/.secrets && exec uvx awslabs.cloudwatch-mcp-server@latest"],
+      "env": { "AWS_PROFILE": "dataplat-ro", "AWS_REGION": "us-east-2" }
+    }
+  }
+}
