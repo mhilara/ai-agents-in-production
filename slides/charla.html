@@ -55,7 +55,7 @@ svg.diag{width:100%;height:100%;max-height:100%}
 .t{fill:#f2f6fa;font-family:Inter,sans-serif;font-size:15px;font-weight:600}
 .s{fill:#93a4b8;font-family:Inter,sans-serif;font-size:12.5px}
 .s2{fill:#6f8098;font-family:Inter,sans-serif;font-size:11.5px;letter-spacing:.06em}
-.box{fill:#161c24;stroke:#2a3542;stroke-width:1.5}
+.box{fill:url(#gcard);stroke:#303d4d;stroke-width:1.4}
 .ln{stroke:#3c4a5c;stroke-width:1.8;fill:none}
 .lna{stroke:#FF9900;stroke-width:2.2;fill:none}
 .lng{stroke:#4ade80;stroke-width:2.2;fill:none}
@@ -88,6 +88,29 @@ section.on .bg{animation:kb 14s ease-out both}
 
 .lb4{fill:#f2f6fa;font-family:Inter,sans-serif;font-size:17px;font-weight:600}
 .lb5{fill:#93a4b8;font-family:Inter,sans-serif;font-size:14px;font-weight:400}
+
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle at 1px 1px, rgba(148,170,196,.14) 1px, transparent 0);
+  background-size:34px 34px;mask-image:radial-gradient(ellipse 85% 75% at 50% 45%,#000 20%,transparent 78%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(52vw 42vw at 88% -8%, rgba(255,153,0,.13), transparent 62%),
+    radial-gradient(46vw 38vw at -6% 104%, rgba(90,130,255,.11), transparent 62%),
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 42%, rgba(0,0,0,.55) 100%);
+  animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate3d(-2.5%,1.8%,0) scale(1.05)}}
+section{z-index:1}
+.diagwrap{position:relative;z-index:1}
+.kicker{position:relative;padding-left:16px}
+.kicker::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:7px;height:7px;border-radius:2px;background:var(--accent);
+  box-shadow:0 0 12px rgba(255,153,0,.9)}
+.lna,.lng,.lnr{filter:drop-shadow(0 0 5px rgba(255,153,0,.28))}
+.lng{filter:drop-shadow(0 0 5px rgba(74,222,128,.3))}
+.lnr{filter:drop-shadow(0 0 5px rgba(221,52,76,.32))}
+.hu{paint-order:stroke;filter:drop-shadow(0 6px 26px rgba(0,0,0,.65))}
+.src{fill:#5a6b80;font-family:Inter,sans-serif;font-size:13px;letter-spacing:.04em}
+.chip{fill:#93a4b8;font-family:Inter,sans-serif;font-size:14px;font-weight:600}
 @media print{body{overflow:visible}section{display:block!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
 </style>
 </head>
@@ -191,6 +214,24 @@ section.on .bg{animation:kb 14s ease-out both}
 </symbol>
 </svg><svg width="0" height="0" style="position:absolute">
 <defs>
+  <linearGradient id="gcard" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1b232e"/><stop offset="100%" stop-color="#11171f"/>
+  </linearGradient>
+  <linearGradient id="gacc" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#241b10"/><stop offset="100%" stop-color="#14181f"/>
+  </linearGradient>
+  <linearGradient id="gbar" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#ff5f6d"/><stop offset="100%" stop-color="#ff8a7a"/>
+  </linearGradient>
+  <linearGradient id="gbarok" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#31c97f"/><stop offset="100%" stop-color="#7ef0ad"/>
+  </linearGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="9" result="b"/><feMerge>
+      <feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<defs>
   <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
     <path d="M0 0 L10 5 L0 10 z" fill="#FF9900"/></marker>
   <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -255,27 +296,36 @@ section.on .bg{animation:kb 14s ease-out both}
   <div class="diagwrap">
     <div class="kicker an">Por qué importa</div>
     <div class="fill">
-    <svg class="diag" viewBox="0 0 1180 440">
+    <svg class="diag" viewBox="0 0 1180 560">
       <g class="an" style="--d:.1s">
-        <text class="hu" x="40" y="140" font-size="112">53%</text>
-        <text class="lbl" x="44" y="186">fallas de software</text>
+        <text class="hu" x="40" y="176" font-size="112">53%</text>
+        <text class="lbl" x="44" y="222">fallas de software</text>
+        <text class="src" x="44" y="252">la causa número uno, por encima de red y seguridad</text>
       </g>
-      <line class="ln an" style="--d:.2s" x1="360" y1="40" x2="360" y2="230" opacity=".4"/>
+      <line class="ln an" style="--d:.2s" x1="360" y1="70" x2="360" y2="290" opacity=".4"/>
       <g class="an" style="--d:.3s">
-        <text class="hu" x="420" y="140" font-size="112">600 mil M</text>
-        <text class="lbl" x="424" y="186">dólares al año en caídas</text>
+        <text class="hu" x="420" y="176" font-size="112">600 mil M</text>
+        <text class="lbl" x="424" y="222">dólares al año en caídas</text>
+        <g transform="translate(424,242)">
+          <rect x="0" y="0" width="128" height="30" rx="15" fill="url(#gacc)" stroke="#DD344C" stroke-width="1.2"/>
+          <path d="M14 21 L22 12 L29 17 L40 6" fill="none" stroke="#ff6b6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M34 6 L40 6 L40 12" fill="none" stroke="#ff6b6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text class="chip" x="52" y="20" style="fill:#ff8a9c">+50% en 2 años</text>
+        </g>
       </g>
-      <line class="ln an" style="--d:.4s" x1="900" y1="40" x2="900" y2="230" opacity=".4"/>
+      <line class="ln an" style="--d:.4s" x1="900" y1="70" x2="900" y2="290" opacity=".4"/>
       <g class="an" style="--d:.5s">
-        <text class="hu" x="950" y="140" font-size="112">78%</text>
-        <text class="lbl" x="954" y="186">ya usa agentes</text>
+        <text class="hu" x="950" y="176" font-size="112">78%</text>
+        <text class="lbl" x="954" y="222">ya usa agentes</text>
+        <text class="src" x="954" y="252">equipos de más de 50 ingenieros</text>
       </g>
 
       <g class="an" style="--d:.75s">
-        <line class="ln" x1="40" y1="268" x2="1140" y2="268" opacity=".3"/>
-        <text class="frm" x="590" y="360" text-anchor="middle">
+        <line class="ln" x1="40" y1="340" x2="1140" y2="340" opacity=".3"/>
+        <text class="frm" x="590" y="446" text-anchor="middle">
           <tspan fill="#5ee89a">más IA</tspan><tspan fill="#6f8098">  +  </tspan><tspan fill="#ff6b6b">menos frenos</tspan><tspan fill="#6f8098">  =  </tspan><tspan fill="#ff6b6b">más fallos</tspan>
         </text>
+        <text class="src" x="590" y="516" text-anchor="middle">medido en el informe DORA 2026 · costos de caídas: Splunk · adopción de MCP: encuestas 2026</text>
       </g>
     </svg>
     </div>
@@ -314,19 +364,19 @@ section.on .bg{animation:kb 14s ease-out both}
 
       <g class="an" style="--d:1s">
         <text class="s2" x="24" y="250" fill="#FF9900">AGENTE</text>
-        <rect fill="#161c24" stroke="#FF9900" stroke-width="1.7" x="20" y="268" width="180" height="76" rx="12"/>
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.7" x="20" y="268" width="180" height="76" rx="12"/>
         <use href="#g-person" x="46" y="288" width="34" height="34"/>
         <text class="lb2" x="96" y="314">Persona</text>
       </g>
       <path class="lna draw" style="--d:1.2s;--len:56" d="M206 306 L262 306" marker-end="url(#a)"/>
       <g class="an" style="--d:1.25s">
-        <rect fill="#161c24" stroke="#FF9900" stroke-width="1.7" x="268" y="268" width="180" height="76" rx="12"/>
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.7" x="268" y="268" width="180" height="76" rx="12"/>
         <use href="#b-claude" x="294" y="288" width="34" height="34"/>
         <text class="lb2" x="344" y="314">Agente</text>
       </g>
       <path class="lna draw" style="--d:1.4s;--len:56" d="M454 306 L510 306" marker-end="url(#a)"/>
       <g class="an" style="--d:1.45s">
-        <rect fill="#161c24" stroke="#FF9900" stroke-width="1.7" x="516" y="268" width="250" height="76" rx="12"/>
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.7" x="516" y="268" width="250" height="76" rx="12"/>
         <use href="#b-amazonecs" x="540" y="292" width="30" height="30"/>
         <use href="#b-terraform" x="586" y="292" width="30" height="30"/>
         <use href="#b-amazoncloudwatch" x="632" y="292" width="30" height="30"/>
@@ -335,7 +385,7 @@ section.on .bg{animation:kb 14s ease-out both}
       </g>
       <path class="lna draw" style="--d:1.6s;--len:56" d="M772 306 L828 306" marker-end="url(#a)"/>
       <g class="an" style="--d:1.65s">
-        <rect fill="#161c24" stroke="#FF9900" stroke-width="1.7" x="834" y="268" width="200" height="76" rx="12"/>
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.7" x="834" y="268" width="200" height="76" rx="12"/>
         <text class="lb2" x="934" y="314" text-anchor="middle">Producción</text>
       </g>
       <path class="lna draw" style="--d:1.85s;--len:560" d="M1034 306 L1100 306 L1100 396 L110 396 L110 350" marker-end="url(#a)"/>
@@ -542,46 +592,55 @@ section.on .bg{animation:kb 14s ease-out both}
   <div class="diagwrap">
     <div class="kicker an">Guardarraíles</div>
     <div class="fill">
-    <svg class="diag" viewBox="0 0 1180 430">
+    <svg class="diag" viewBox="0 0 1180 560">
       <g class="an" style="--d:.1s">
-        <rect class="box" x="20" y="120" width="170" height="90" rx="12"/>
-        <use href="#b-claude" x="50" y="142" width="32" height="32"/>
-        <text class="lb2" x="98" y="166">Agente</text>
+        <rect class="box" x="20" y="185" width="170" height="90" rx="12"/>
+        <use href="#b-claude" x="50" y="207" width="32" height="32"/>
+        <text class="lb2" x="98" y="231">Agente</text>
       </g>
-      <path class="lna draw" style="--d:.3s;--len:70" d="M196 165 L264 165" marker-end="url(#a)"/>
+      <path class="lna draw" style="--d:.3s;--len:70" d="M196 230 L264 230" marker-end="url(#a)"/>
       <g class="an" style="--d:.35s">
-        <path fill="none" stroke="#FF9900" stroke-width="1.8" d="M400 110 L530 165 L400 220 L270 165 Z"/>
-        <text class="lb2" x="400" y="158" text-anchor="middle">Leer</text>
-        <text class="lb2" x="400" y="186" text-anchor="middle">o escribir</text>
+        <path fill="none" stroke="#FF9900" stroke-width="1.8" d="M400 170 L530 230 L400 290 L270 230 Z"/>
+        <text class="lb2" x="400" y="223" text-anchor="middle">Leer</text>
+        <text class="lb2" x="400" y="251" text-anchor="middle">o escribir</text>
       </g>
 
-      <path class="lng draw" style="--d:.6s;--len:280" d="M400 106 L400 66 L628 66" marker-end="url(#ag)"/>
+      <path class="lng draw" style="--d:.6s;--len:280" d="M400 166 L400 80 L628 80" marker-end="url(#ag)"/>
       <g class="an" style="--d:.7s">
-        <rect fill="none" stroke="#4ade80" stroke-width="1.8" x="634" y="36" width="256" height="60" rx="12"/>
-        <text class="lb2" x="762" y="74" text-anchor="middle" style="fill:#5ee89a">Pasa</text>
+        <rect fill="none" stroke="#4ade80" stroke-width="1.8" x="634" y="48" width="256" height="64" rx="12"/>
+        <text class="lb2" x="740" y="88" text-anchor="middle" style="fill:#5ee89a">Pasa</text>
+        <g transform="translate(806,66)">
+          <rect x="0" y="0" width="70" height="26" rx="13" fill="#05080c" stroke="#4ade80" stroke-width="1.1"/>
+          <text class="chip" x="35" y="18" text-anchor="middle" style="fill:#5ee89a;font-size:12px">sin pedir</text>
+        </g>
       </g>
 
-      <path class="lnr draw" style="--d:.9s;--len:280" d="M400 224 L400 264 L628 264" marker-end="url(#ar)"/>
+      <path class="lnr draw" style="--d:.9s;--len:280" d="M400 294 L400 366 L628 366" marker-end="url(#ar)"/>
       <g class="an" style="--d:1s">
-        <rect fill="none" stroke="#DD344C" stroke-width="1.8" x="634" y="234" width="256" height="60" rx="12"/>
-        <text class="lb2" x="762" y="272" text-anchor="middle" style="fill:#ff6b6b">Denegado</text>
+        <rect fill="none" stroke="#DD344C" stroke-width="1.8" x="634" y="334" width="256" height="64" rx="12"/>
+        <text class="lb2" x="740" y="374" text-anchor="middle" style="fill:#ff6b6b">Denegado</text>
+        <g transform="translate(818,352)">
+          <rect x="0" y="0" width="56" height="26" rx="13" fill="#05080c" stroke="#DD344C" stroke-width="1.1"/>
+          <text class="chip" x="28" y="18" text-anchor="middle" style="fill:#ff8a9c;font-size:12px">IAM</text>
+        </g>
       </g>
-      <path class="lna draw" style="--d:1.2s;--len:48" d="M896 264 L934 264" marker-end="url(#a)"/>
+      <path class="lna draw" style="--d:1.2s;--len:48" d="M896 366 L934 366" marker-end="url(#a)"/>
       <g class="an" style="--d:1.25s">
-        <rect fill="none" stroke="#FF9900" stroke-width="1.8" x="940" y="234" width="220" height="60" rx="12"/>
-        <use href="#g-person" x="964" y="250" width="28" height="28"/>
-        <text class="lb2" x="1010" y="272">Autoriza</text>
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.8" x="940" y="334" width="220" height="64" rx="12"/>
+        <use href="#g-person" x="964" y="352" width="28" height="28"/>
+        <text class="lb2" x="1010" y="374">Autoriza</text>
       </g>
-      <path class="lna draw" style="--d:1.45s;--len:40" d="M1050 300 L1050 330" marker-end="url(#a)"/>
+      <path class="lna draw" style="--d:1.45s;--len:40" d="M1050 402 L1050 446" marker-end="url(#a)"/>
       <g class="an" style="--d:1.5s">
-        <rect class="box" x="940" y="336" width="220" height="60" rx="12"/>
-        <use href="#b-terraform" x="964" y="352" width="28" height="28"/>
-        <text class="lb2" x="1010" y="374">Terraform</text>
+        <rect class="box" x="940" y="452" width="220" height="64" rx="12"/>
+        <use href="#b-terraform" x="964" y="470" width="28" height="28"/>
+        <text class="lb2" x="1010" y="492">Terraform</text>
       </g>
 
       <g class="an" style="--d:1.7s">
-        <rect fill="#05080c" stroke="#DD344C" stroke-width="1.6" x="20" y="336" width="880" height="60" rx="10"/>
-        <text class="mn3" x="48" y="374" style="fill:#ff6b6b">AccessDenied — explicit deny in an identity-based policy</text>
+        <rect fill="#05080c" stroke="#DD344C" stroke-width="1.6" x="20" y="452" width="880" height="64" rx="10"/>
+        <text class="mn3" x="48" y="492" style="fill:#ff6b6b">AccessDenied — explicit deny in an identity-based policy</text>
+        <text class="src" x="48" y="438">salida real de la demo</text>
       </g>
     </svg>
     </div>
@@ -600,13 +659,13 @@ section.on .bg{animation:kb 14s ease-out both}
       <g class="an" style="--d:0.18s">
         <text class="lb5" x="20" y="72">antes</text>
         <rect x="20" y="86" width="620" height="34" rx="6" fill="#171f29"/>
-        <rect x="20" y="86" width="414" height="34" rx="6" style="fill:#ff6b6b"/>
+        <rect x="20" y="86" width="414" height="34" rx="6" style="fill:url(#gbar)"/>
         <text class="lb1" x="662" y="115" style="fill:#ff6b6b;font-size:34px">2 de 3</text>
       </g>
       <g class="an" style="--d:0.3s">
         <text class="lb5" x="20" y="142">después</text>
         <rect x="20" y="156" width="620" height="34" rx="6" fill="#171f29"/>
-        <rect x="20" y="156" width="620" height="34" rx="6" style="fill:#5ee89a"/>
+        <rect x="20" y="156" width="620" height="34" rx="6" style="fill:url(#gbarok)"/>
         <text class="lb1" x="662" y="185" style="fill:#5ee89a;font-size:34px">3 de 3</text>
       </g>
       <text class="lb5 an" style="--d:.5s" x="20" y="222">la retención estaba configurada y no se aplicaba nunca</text>
@@ -620,13 +679,13 @@ section.on .bg{animation:kb 14s ease-out both}
       <g class="an" style="--d:0.7s">
         <text class="lb5" x="20" y="324">antes</text>
         <rect x="20" y="338" width="620" height="34" rx="6" fill="#171f29"/>
-        <rect x="20" y="338" width="589" height="34" rx="6" style="fill:#ff6b6b"/>
+        <rect x="20" y="338" width="589" height="34" rx="6" style="fill:url(#gbar)"/>
         <text class="lb1" x="662" y="367" style="fill:#ff6b6b;font-size:34px">95%</text>
       </g>
       <g class="an" style="--d:0.82s">
         <text class="lb5" x="20" y="394">después</text>
         <rect x="20" y="408" width="620" height="34" rx="6" fill="#171f29"/>
-        <rect x="20" y="408" width="341" height="34" rx="6" style="fill:#5ee89a"/>
+        <rect x="20" y="408" width="341" height="34" rx="6" style="fill:url(#gbarok)"/>
         <text class="lb1" x="662" y="437" style="fill:#5ee89a;font-size:34px">55%</text>
       </g>
       <text class="lb5 an" style="--d:1s" x="20" y="474">52 millones de documentos sin política de retención</text>
@@ -641,7 +700,7 @@ section.on .bg{animation:kb 14s ease-out both}
     <div class="fill">
     <svg class="diag" viewBox="0 0 1180 400">
       <g class="an" style="--d:.15s">
-        <rect fill="none" stroke="#FF9900" stroke-width="1.8" x="20" y="50" width="360" height="230" rx="16"/>
+        <rect fill="url(#gacc)" stroke="#FF9900" stroke-width="1.8" x="20" y="50" width="360" height="230" rx="16"/>
         <use href="#b-githubactions" x="56" y="90" width="44" height="44"/>
         <use href="#b-terraform" x="116" y="90" width="44" height="44"/>
         <text class="lb1" x="56" y="210">Desplegar</text>
