@@ -16,10 +16,16 @@ variable "service_name" {
   default     = "ingest-api"
 }
 
+variable "app_version" {
+  description = "Version desplegada de ingest-api. Cambiar aca = desplegar."
+  type        = string
+  default     = "1.4.0"
+}
+
 variable "app_message" {
   description = "Variable de entorno que la app necesita para arrancar. Vacia = crash loop."
   type        = string
-  default     = "ingest-api ok"
+  default     = "ok"
 }
 
 variable "desired_count" {

@@ -1,144 +1,120 @@
-# Guion de la demo — 10 minutos
+# Guion de la demo — 10 minutos, 3 actos
 
-Terminal en fuente grande. Tres pestañas abiertas: **agente**, **AWS**, **pipeline**.
-
----
-
-## 0. Antes de empezar (no se muestra)
+Terminal en 18-20 pt. Tres pestañas: **agente** · **AWS** · **pipeline**.
+La IP del servicio la imprime `./preflight.sh`.
 
 ```bash
-export AWS_PROFILE=dataplat-ro
+export AWS_PROFILE=dataplat-ro     # el agente vive acá
 cd ~/Documents/EMI-talk
 ```
 
 ---
 
-## 1. Contexto — 1 min
+# ACTO 1 · Despliegue  — 3 min
 
-> "Esto es un servicio de ingesta de una plataforma de datos. Corre en producción."
+> "Esto es un servicio de ingesta de una plataforma de datos. Está en producción, ahora."
 
 ```bash
-aws ecs describe-services --cluster dataplat-prod --services ingest-api \
-  --query 'services[0].{running:runningCount,desired:desiredCount}'
 curl http://<IP>:8080/
 ```
-Esperado: `1/1` y `ingest-api ok`.
+→ `ingest-api v1.4.0 | ok`
 
-> "Y este es el agente. Está conectado a AWS con un rol de **solo lectura**. Recuerden eso."
+> "Le voy a pedir al agente que despliegue la versión nueva. En español, sin tocar la consola."
+
+**Prompt al agente:**
+```
+Desplegá la versión 1.5.0 de ingest-api.
+```
+
+El agente edita `demo/terraform/terraform.tfvars`, commitea y hace push a `main`.
 
 ```bash
-aws sts get-caller-identity --query Arn --output text
+gh run watch
 ```
-Esperado: `.../dataplat-prod-agent-readonly/...`
+
+> "Nadie guardó una llave de AWS en GitHub. El pipeline se identifica con OIDC y AWS le da
+> credenciales temporales para esta corrida y nada más."
+
+```bash
+curl http://<IP>:8080/
+```
+→ `ingest-api v1.5.0 | ok`   ⬅ **el despliegue terminó**
 
 ---
 
-## 2. La falla — 1 min
+# ACTO 2 · Incidente  — 4 min
 
-> "Alguien despliega a mano, fuera del pipeline. Pasa en todas las empresas."
+> "Ahora la parte que pasa en todas las empresas: alguien despliega a mano, apurado, fuera del pipeline."
 
 ```bash
 AWS_PROFILE=dataplat-admin ./demo/break.sh
 ```
 
-Esperar ~60 s. Mientras tanto se habla de la capa de memoria (paso 3).
+Mientras tarda ~60 s, se habla de memoria. Después:
 
----
+**Prompt al agente:**
+```
+ingest-api se está reiniciando todo el tiempo. ¿Qué pasa?
+```
 
-## 3. El agente recuerda — 1 min
-
-> "Antes de mirar AWS, el agente mira lo que ya sabe."
-
+**1 · El agente recuerda** (RAG, no búsqueda de texto):
 ```bash
 .venv/bin/python demo/memory.py "el servicio se reinicia todo el tiempo en ECS"
 ```
-Esperado: primero el runbook **"Servicio ECS en crash loop"**, score ~0.60.
+→ primero el runbook **"Servicio ECS en crash loop"**, score ~0.60
 
-> "No es un buscador de texto. Yo nunca escribí 'crash loop'. Escribí 'se reinicia todo el tiempo'."
+> "Yo nunca escribí 'crash loop'. Lo encontró por significado."
 
----
-
-## 4. Diagnóstico, solo lectura — 3 min
-
-Seguir el runbook **en orden**, no adivinar.
-
+**2 · Diagnóstico, en el orden del runbook:**
 ```bash
-# 1. Qué dice ECS
 aws ecs describe-services --cluster dataplat-prod --services ingest-api \
   --query 'services[0].events[0:5].message' --output text
 
-# 2. Qué tasks murieron y con qué código
 T=$(aws ecs list-tasks --cluster dataplat-prod --service-name ingest-api \
      --desired-status STOPPED --query 'taskArns[0]' --output text)
 aws ecs describe-tasks --cluster dataplat-prod --tasks $T \
   --query 'tasks[0].{razon:stoppedReason,exit:containers[0].exitCode}'
 
-# 3. Por qué  <- acá está la causa raíz
 aws logs tail /dataplat/prod/ingest-api --since 5m
 ```
-Esperado: `exit 1` y `FATAL: APP_MESSAGE no esta definida`.
+→ `exit 1` · `FATAL: APP_MESSAGE no esta definida`
 
-> "El evento de ECS dice QUÉ falló. El log dice POR QUÉ. No se declara causa raíz hasta ver el log."
+> "El evento de ECS dice QUÉ falló. El log dice POR QUÉ. No hay causa raíz hasta ver el log."
 
-Confirmar el drift contra IaC:
-```bash
-aws ecs describe-task-definition --task-definition ingest-api:2 \
-  --query 'taskDefinition.containerDefinitions[0].environment'
-aws ecs describe-task-definition --task-definition ingest-api:1 \
-  --query 'taskDefinition.containerDefinitions[0].environment'
-```
-
----
-
-## 5. El guardarraíl — 1 min  ⭐ el momento de la charla
-
-> "El agente ya sabe el fix. Que lo intente."
-
+**3 · El guardarraíl** ⭐ *el momento de la charla*
 ```bash
 aws ecs update-service --cluster dataplat-prod --service ingest-api --desired-count 2
 ```
-Esperado, en vivo:
-```
-AccessDeniedException ... with an explicit deny in an identity-based policy
-```
+→ `AccessDeniedException ... explicit deny in an identity-based policy`
 
-> "La IAM es el guardarraíl real. El prompt es doctrina; los permisos son el freno."
+> "El agente sabe el fix y no puede aplicarlo. El prompt es doctrina: un modelo lo puede ignorar.
+> Los permisos no se ignoran."
 
 ---
 
-## 6. El fix, por pipeline — 2 min
+# ACTO 3 · Fix y aprendizaje  — 3 min
 
-> "No se parcha a mano. Se repone el estado declarado."
+> "El fix no se parcha a mano. Se repone el estado declarado, por el mismo pipeline."
 
 ```bash
 git commit --allow-empty -m "restore ingest-api to declared state"
-git push          # push a main -> OIDC -> terraform apply
-gh run watch
+git push && gh run watch
+curl http://<IP>:8080/
 ```
 
-**Plan B si no hay internet o el runner tarda:**
+**Plan B si el runner tarda o no hay internet:**
 ```bash
 AWS_PROFILE=dataplat-op terraform -chdir=demo/terraform apply -auto-approve
 ```
 
-Verificar:
-```bash
-aws ecs describe-services --cluster dataplat-prod --services ingest-api \
-  --query 'services[0].{running:runningCount,taskdef:taskDefinition}'
-curl http://<IP>:8080/
-```
-
----
-
-## 7. El agente aprende — 1 min
-
+**El agente guarda lo aprendido:**
 ```bash
 .venv/bin/python demo/memory.py remember demo/learned/incidente-de-hoy.md
 .venv/bin/python demo/memory.py "qué pasó hoy con ingest-api"
 ```
 
-> "El próximo incidente parecido empieza acá, no desde cero. Eso es lo que separa un agente
-> de un chatbot: el chatbot olvida."
+> "El próximo incidente parecido no empieza de cero. Eso separa un agente de un chatbot:
+> el chatbot olvida. Y el agente propone — la persona autoriza."
 
 ---
 
@@ -146,8 +122,8 @@ curl http://<IP>:8080/
 
 | Si falla | Hacer |
 |---|---|
-| No hay internet | Pasar al video de respaldo (`slides/respaldo.mov`) |
-| Qdrant no responde | `demo/memory.py` tiene los .md en disco: abrir el runbook y leerlo |
-| El task no muere en 60 s | Seguir hablando de memoria; revisar a los 90 s |
-| El pipeline tarda | Plan B con `terraform apply` local |
+| No hay internet | Video de respaldo (`slides/respaldo.mov`) |
+| El pipeline tarda | `terraform apply` local con `dataplat-op` |
+| Qdrant no responde | Abrir el runbook en `demo/seed-memory/` y leerlo |
+| El task no muere en 60 s | Seguir hablando de memoria, revisar a los 90 s |
 | AWS no responde | Video de respaldo |

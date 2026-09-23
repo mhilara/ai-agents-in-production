@@ -38,12 +38,13 @@ locals {
   # Sin APP_MESSAGE el contenedor sale con codigo 1 antes de levantar el server.
   app_command = [
     "/bin/sh", "-c",
-    "if [ -z \"$APP_MESSAGE\" ]; then echo 'FATAL: APP_MESSAGE no esta definida' >&2; exit 1; fi; echo \"$APP_MESSAGE\" > /tmp/index.html; cd /tmp; exec httpd -f -p 8080"
+    "if [ -z \"$APP_MESSAGE\" ]; then echo 'FATAL: APP_MESSAGE no esta definida' >&2; exit 1; fi; echo \"ingest-api v$APP_VERSION | $APP_MESSAGE\" > /tmp/index.html; echo \"listening on 8080, version $APP_VERSION\"; cd /tmp; exec httpd -f -p 8080"
   ]
 
-  app_environment = var.app_message == "" ? [] : [
-    { name = "APP_MESSAGE", value = var.app_message }
-  ]
+  app_environment = concat(
+    [{ name = "APP_VERSION", value = var.app_version }],
+    var.app_message == "" ? [] : [{ name = "APP_MESSAGE", value = var.app_message }]
+  )
 }
 
 resource "aws_ecs_task_definition" "app" {
