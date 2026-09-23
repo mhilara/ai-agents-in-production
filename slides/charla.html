@@ -5,43 +5,62 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agentes en Producción</title>
 <style>
-:root{
-  --bg:#0d1117; --panel:#161c24; --ink:#f2f6fa; --muted:#93a4b8;
-  --accent:#FF9900; --line:#2a3542; --good:#4ade80; --bad:#f87171;
-  --vpc:#8C4FFF; --sec:#DD344C; --mgmt:#E7157B; --stor:#7AA116; --comp:#ED7100;
-}
+:root{--ink:#fff;--muted:#b9c6d4;--accent:#FF9900;--good:#5ee89a;--bad:#ff6b6b}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{background:var(--bg);color:var(--ink);overflow:hidden;
+body{background:#05070a;color:var(--ink);overflow:hidden;
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-section{position:absolute;inset:0;display:none;flex-direction:column;padding:4.5vh 5.5vw 8vh;gap:1.4vh}
-section.on{display:flex}
-.kicker{color:var(--accent);font-size:clamp(11px,1.15vw,17px);font-weight:700;
-  letter-spacing:.18em;text-transform:uppercase}
-h1{font-size:clamp(36px,5.6vw,84px);line-height:1.02;letter-spacing:-.025em;font-weight:700}
-h2{font-size:clamp(24px,3.2vw,48px);line-height:1.08;letter-spacing:-.022em;font-weight:650}
-.lead{font-size:clamp(15px,1.55vw,24px);color:var(--muted);line-height:1.4;max-width:60ch}
-.fill{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
-svg.diag{width:100%;height:100%;max-height:100%}
-footer{position:fixed;bottom:2.2vh;left:5.5vw;right:5.5vw;display:flex;justify-content:space-between;
-  font-size:clamp(10px,.95vw,14px);color:#5d6b7d;letter-spacing:.05em}
+section{position:absolute;inset:0;display:none}
+section.on{display:block}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scrim{position:absolute;inset:0}
+.scrim.l{background:linear-gradient(90deg,rgba(3,5,8,.94) 0%,rgba(3,5,8,.82) 38%,rgba(3,5,8,.15) 72%,rgba(3,5,8,.45) 100%)}
+.scrim.b{background:linear-gradient(0deg,rgba(3,5,8,.95) 0%,rgba(3,5,8,.55) 42%,rgba(3,5,8,.1) 100%)}
+.scrim.c{background:radial-gradient(ellipse at 50% 50%,rgba(3,5,8,.35) 0%,rgba(3,5,8,.88) 78%)}
+.wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:0 7vw;gap:2.4vh}
+.wrap.bottom{justify-content:flex-end;padding-bottom:12vh}
+.wrap.narrow{max-width:62%}
+.kicker{color:var(--accent);font-size:clamp(11px,1.15vw,18px);font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase}
+h1{font-size:clamp(40px,6.4vw,104px);line-height:.98;letter-spacing:-.035em;font-weight:800}
+h2{font-size:clamp(30px,4.6vw,76px);line-height:1.02;letter-spacing:-.03em;font-weight:750;
+  text-shadow:0 2px 30px rgba(0,0,0,.65)}
+.sub{font-size:clamp(17px,2vw,32px);color:var(--muted);line-height:1.35;max-width:26ch;font-weight:400}
+.name{font-size:clamp(15px,1.5vw,24px);color:#dbe6f0}
+.nums{display:flex;gap:5vw;margin-top:1vh}
+.num b{display:block;font-size:clamp(46px,8vw,132px);line-height:.9;letter-spacing:-.05em;font-weight:800}
+.num span{display:block;font-size:clamp(13px,1.35vw,21px);color:var(--muted);margin-top:1.2vh}
+.num.hot b{color:var(--accent)}
+.term{background:rgba(3,6,10,.93);border:1px solid #2b3a4a;border-left:3px solid var(--accent);
+  border-radius:10px;padding:2.4vh 2vw;font-family:"SF Mono",Menlo,Consolas,monospace;
+  font-size:clamp(12px,1.25vw,20px);line-height:1.75;color:#d8e6f2;white-space:pre-wrap;
+  box-shadow:0 30px 70px rgba(0,0,0,.6)}
+.term .c{color:#6b7f95}.term .r{color:#ff6b6b;font-weight:700}
+.term .g{color:#5ee89a;font-weight:600}.term .y{color:var(--accent)}
+.three{display:flex;gap:2.4vw;margin-top:1vh}
+.three div{font-size:clamp(14px,1.5vw,24px);color:var(--muted)}
+.three b{color:#fff;display:block;font-size:clamp(17px,1.9vw,30px);margin-bottom:.5vh}
+.ba{display:flex;gap:6vw;align-items:flex-end}
+.ba .x{font-size:clamp(30px,5vw,80px);font-weight:800;letter-spacing:-.04em;line-height:1}
+footer{position:fixed;bottom:2.2vh;left:7vw;right:7vw;display:flex;justify-content:space-between;
+  font-size:clamp(10px,.95vw,14px);color:#5d6b7d;letter-spacing:.05em;z-index:4}
 #notes{position:fixed;left:0;right:0;bottom:0;background:#000;border-top:2px solid var(--accent);
-  padding:14px 5.5vw;font-size:15px;line-height:1.5;color:#dbe6f0;display:none;max-height:36vh;overflow:auto}
-#notes.on{display:block} #notes b{color:var(--accent)}
+  padding:14px 7vw;font-size:15px;line-height:1.5;color:#dbe6f0;display:none;max-height:36vh;overflow:auto;z-index:6}
+#notes.on{display:block}#notes b{color:var(--accent)}
 .bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);transition:width .25s;z-index:5}
+.diagwrap{position:absolute;inset:0;display:flex;flex-direction:column;padding:4.5vh 5vw 8vh;gap:1.2vh}
+.diagwrap .fill{flex:1;display:flex;align-items:center;min-height:0}
+svg.diag{width:100%;height:100%;max-height:100%}
 .t{fill:#f2f6fa;font-family:Inter,sans-serif;font-size:15px;font-weight:600}
-.tb{fill:#f2f6fa;font-family:Inter,sans-serif;font-size:19px;font-weight:700}
 .s{fill:#93a4b8;font-family:Inter,sans-serif;font-size:12.5px}
 .s2{fill:#6f8098;font-family:Inter,sans-serif;font-size:11.5px;letter-spacing:.06em}
-.mono{font-family:"SF Mono",Menlo,Consolas,monospace}
-.huge{fill:#fff;font-family:Inter,sans-serif;font-size:62px;font-weight:700;letter-spacing:-.03em}
+.box{fill:#161c24;stroke:#2a3542;stroke-width:1.5}
 .ln{stroke:#3c4a5c;stroke-width:1.8;fill:none}
 .lna{stroke:#FF9900;stroke-width:2.2;fill:none}
-.lnr{stroke:#f87171;stroke-width:2.2;fill:none}
 .lng{stroke:#4ade80;stroke-width:2.2;fill:none}
 .grp{fill:none;stroke-width:1.6;stroke-dasharray:7 5}
-.box{fill:#161c24;stroke:#2a3542;stroke-width:1.5}
-@media print{body{overflow:visible}section{display:flex!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
+@media print{body{overflow:visible}section{display:block!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
 </style>
 </head>
 <body>
@@ -141,9 +160,7 @@ footer{position:fixed;bottom:2.2vh;left:5.5vw;right:5.5vw;display:flex;justify-c
   <path d="M21 27 l5 4 -5 4" fill="none" stroke="#ED7100" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M30 35 h9" stroke="#ED7100" stroke-width="2.4" stroke-linecap="round"/>
 </symbol>
-</svg>
-
-<svg width="0" height="0" style="position:absolute">
+</svg><svg width="0" height="0" style="position:absolute">
 <defs>
   <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
     <path d="M0 0 L10 5 L0 10 z" fill="#FF9900"/></marker>
@@ -154,96 +171,55 @@ footer{position:fixed;bottom:2.2vh;left:5.5vw;right:5.5vw;display:flex;justify-c
   <marker id="an" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
     <path d="M0 0 L10 5 L0 10 z" fill="#3c4a5c"/></marker>
 </defs>
-</svg>
-<div class="bar" id="bar"></div>
+</svg><div class="bar" id="bar"></div>
 
-<section data-notes="<b>0:00–0:45</b> · Una línea sobre vos y la promesa: al final van a ver un agente desplegando y diagnosticando un servicio real en AWS, en vivo. No leas la slide.">
-  <div class="kicker">1er Simposio Internacional de Inteligencia Artificial · EMI</div>
-  <div class="fill" style="flex-direction:column;align-items:flex-start;justify-content:center;gap:2.5vh">
-    <h1>Agentes de IA que<br>operan producción</h1>
-    <p class="lead">RAG, memoria y automatización empresarial</p>
-    <p style="font-size:clamp(15px,1.6vw,25px)"><b>Milton Hilara Mamani</b>
-      <span style="color:var(--muted)"> · DevOps &amp; Data Platform Engineer</span></p>
+<section data-notes="<b>0:00–0:40</b> · Dejá la imagen respirar dos segundos antes de hablar. Presentate en una línea y hacé la promesa: en 10 minutos van a ver a un agente desplegar y diagnosticar un servicio real, en vivo.">
+  <img class="bg" src="img/titulo.jpg" alt="">
+  <div class="scrim l"></div>
+  <div class="wrap narrow">
+    <div class="kicker">Simposio Internacional de IA · EMI · 2026</div>
+    <h1>Agentes de IA<br>que operan<br>producción</h1>
+    <p class="name"><b>Milton Hilara Mamani</b> · DevOps &amp; Data Platform Engineer</p>
   </div>
 </section>
 
-<section data-notes="<b>0:45–1:45</b> · El problema es de escala, no de tecnología. El conocimiento operativo vive en la cabeza de dos personas, no está escrito, y se va cuando ellas se van. Eso es lo que ataca un agente con memoria.">
-  <div class="kicker">El problema</div>
-  <h2>Operar una plataforma grande con un equipo chico</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 400">
-    <g>
-      <rect class="box" x="30" y="60" width="340" height="280" rx="14"/>
-      <text class="huge" x="200" y="190" text-anchor="middle">60+</text>
-      <text class="t" x="200" y="230" text-anchor="middle">servicios en producción</text>
-      <text class="s" x="200" y="258" text-anchor="middle">desplegándose todos los días</text>
-    </g>
-    <g>
-      <rect class="box" x="420" y="60" width="340" height="280" rx="14"/>
-      <text class="huge" x="590" y="190" text-anchor="middle">6</text>
-      <text class="t" x="590" y="230" text-anchor="middle">motores de datos</text>
-      <text class="s" x="590" y="258" text-anchor="middle">relacional, documental, caché,</text>
-      <text class="s" x="590" y="278" text-anchor="middle">búsqueda, streaming, vectorial</text>
-    </g>
-    <g>
-      <rect x="810" y="60" width="340" height="280" rx="14" fill="#1d1410" stroke="#FF9900" stroke-width="1.8"/>
-      <text class="huge" x="980" y="190" text-anchor="middle" fill="#FF9900">2</text>
-      <text class="t" x="980" y="230" text-anchor="middle">personas que saben</text>
-      <text class="t" x="980" y="252" text-anchor="middle">dónde mirar</text>
-      <text class="s" x="980" y="286" text-anchor="middle">y ese es el verdadero</text>
-      <text class="s" x="980" y="306" text-anchor="middle">cuello de botella</text>
-    </g>
-  </svg>
+<section data-notes="<b>0:40–1:40</b> · Esta foto es la realidad de guardia. Decí los tres números y callate un segundo después del 2. El cuello de botella no es la nube: es que el conocimiento vive en la cabeza de dos personas.">
+  <img class="bg" src="img/hero.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <div class="kicker">Las 3 de la mañana</div>
+    <div class="nums">
+      <div class="num"><b>60+</b><span>servicios en producción</span></div>
+      <div class="num"><b>6</b><span>motores de datos</span></div>
+      <div class="num hot"><b>2</b><span>personas que saben dónde mirar</span></div>
+    </div>
   </div>
 </section>
 
-<section data-notes="<b>1:45–2:45</b> · Recorré los dos carriles. Un chatbot termina en texto: la acción la hacés vos. Un agente cierra el círculo: actúa sobre el sistema, ve el resultado y vuelve a decidir. Por eso necesita frenos.">
-  <div class="kicker">La diferencia</div>
-  <h2>Un chatbot responde. Un agente <span style="color:var(--accent)">opera</span>.</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 400">
-    <text class="s2" x="40" y="42">CHATBOT</text>
-    <line class="ln" x1="40" y1="55" x2="1140" y2="55" opacity=".35"/>
-    <rect class="box" x="40" y="75" width="170" height="70" rx="10"/>
-    <text class="t" x="125" y="117" text-anchor="middle">Pregunta</text>
-    <line class="ln" x1="215" y1="110" x2="285" y2="110" marker-end="url(#an)"/>
-    <rect class="box" x="290" y="75" width="170" height="70" rx="10"/>
-    <text class="t" x="375" y="117" text-anchor="middle">Modelo</text>
-    <line class="ln" x1="465" y1="110" x2="535" y2="110" marker-end="url(#an)"/>
-    <rect class="box" x="540" y="75" width="170" height="70" rx="10"/>
-    <text class="t" x="625" y="117" text-anchor="middle">Texto</text>
-    <line class="ln" x1="715" y1="110" x2="785" y2="110" marker-end="url(#an)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="790" y="75" width="230" height="70" rx="10" stroke="#3c4a5c" stroke-dasharray="6 4"/>
-    <text class="t" x="905" y="107" text-anchor="middle" fill="#93a4b8">lo hacés vos</text>
-    <text class="s" x="905" y="130" text-anchor="middle">a mano, otra vez</text>
-
-    <text class="s2" x="40" y="222" fill="#FF9900">AGENTE QUE OPERA</text>
-    <line class="lna" x1="40" y1="235" x2="1140" y2="235" opacity=".35"/>
-    <rect fill="#161c24" stroke-width="1.7" x="40" y="255" width="170" height="70" rx="10" stroke="#FF9900"/>
-    <text class="t" x="125" y="297" text-anchor="middle">Objetivo</text>
-    <line class="lna" x1="215" y1="290" x2="285" y2="290" marker-end="url(#a)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="290" y="255" width="170" height="70" rx="10" stroke="#FF9900"/>
-    <text class="t" x="375" y="288" text-anchor="middle">Modelo</text>
-    <text class="s" x="375" y="310" text-anchor="middle">+ memoria</text>
-    <line class="lna" x1="465" y1="290" x2="535" y2="290" marker-end="url(#a)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="540" y="255" width="170" height="70" rx="10" stroke="#FF9900"/>
-    <text class="t" x="625" y="288" text-anchor="middle">Herramientas</text>
-    <text class="s" x="625" y="310" text-anchor="middle">llamadas reales</text>
-    <line class="lna" x1="715" y1="290" x2="785" y2="290" marker-end="url(#a)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="790" y="255" width="230" height="70" rx="10" stroke="#FF9900"/>
-    <text class="t" x="905" y="288" text-anchor="middle">El sistema cambia</text>
-    <text class="s" x="905" y="310" text-anchor="middle">y el agente lo verifica</text>
-    <path class="lna" d="M905 330 L905 365 L125 365 L125 330" marker-end="url(#a)"/>
-    <text class="s" x="515" y="385" text-anchor="middle" fill="#FF9900">ve el resultado y vuelve a decidir</text>
-  </svg>
+<section data-notes="<b>1:40–2:10</b> · Momento de risa. Señalá el fuego atrás. El chatbot te explica muy bien el incendio. Pausa.">
+  <img class="bg" src="img/chatbot.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <h2>Esto es un chatbot.</h2>
+    <p class="sub">Te explica el incendio.</p>
   </div>
 </section>
 
-<section data-notes="<b>2:45–4:00</b> · Esta es la arquitectura exacta de lo que van a ver funcionando. Señalá tres cosas: el agente vive AFUERA y entra con un rol de solo lectura; el pipeline entra por OIDC, sin ninguna llave guardada; y los logs son la única fuente de verdad de la causa raíz.">
-  <div class="kicker">Arquitectura</div>
-  <h2>Lo que vamos a ver corriendo</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 520">
+<section data-notes="<b>2:10–2:50</b> · Y este es el cambio. El agente no explica: actúa, ve el resultado y vuelve a decidir. Pero justamente por eso necesita frenos — eso se ve en tres slides más.">
+  <img class="bg" src="img/agente.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <h2>Esto es un agente.</h2>
+    <p class="sub">Lo apaga. Y pide permiso antes de tocar producción.</p>
+  </div>
+</section>
+
+<section data-notes="<b>2:50–4:00</b> · La única lámina técnica. Señalá tres cosas y nada más: el agente entra con solo lectura, el pipeline entra por OIDC sin ninguna llave guardada, y la causa raíz siempre sale del log. Esto es exactamente lo que van a ver corriendo en la demo.">
+  <div class="diagwrap">
+    <div class="kicker">La arquitectura de la demo</div>
+    <h2 style="font-size:clamp(22px,2.9vw,44px)">Lo que vamos a ver corriendo</h2>
+    <div class="fill">
+<svg class="diag" viewBox="0 0 1180 520">
     <!-- fuera de la nube -->
     <rect class="box" x="10" y="40" width="175" height="86" rx="10"/>
     <use href="#i-github" x="26" y="58" width="44" height="44"/>
@@ -324,237 +300,100 @@ footer{position:fixed;bottom:2.2vh;left:5.5vw;right:5.5vw;display:flex;justify-c
     <path class="ln" d="M682 148 L786 112" marker-end="url(#an)"/>
     <text class="s" x="724" y="122" text-anchor="middle">logs</text>
   </svg>
+    </div>
   </div>
 </section>
 
-<section data-notes="<b>4:00–5:00</b> · Las tres capas responden preguntas distintas. La tercera es el RAG. Y el cerebro de equipo es lo que hace que lo que aprende uno lo sepan todos: se hace push y un listener lo reindexa.">
-  <div class="kicker">Memoria</div>
-  <h2>Tres capas, tres preguntas distintas</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 440">
-    <rect fill="#161c24" stroke-width="1.7" x="30" y="40" width="330" height="170" rx="12" stroke="#FF9900"/>
-    <text class="s2" x="56" y="76" fill="#FF9900">CAPA 1</text>
-    <text class="tb" x="56" y="110">Instrucciones</text>
-    <text class="s" x="56" y="140">Las reglas duras: qué herramienta</text>
-    <text class="s" x="56" y="162">va primero, qué está prohibido.</text>
-    <text class="t" x="56" y="192" fill="#93a4b8" font-style="italic">"¿Cómo trabajo?"</text>
-
-    <rect fill="#161c24" stroke-width="1.7" x="425" y="40" width="330" height="170" rx="12" stroke="#FF9900"/>
-    <text class="s2" x="451" y="76" fill="#FF9900">CAPA 2</text>
-    <text class="tb" x="451" y="110">Memoria operativa</text>
-    <text class="s" x="451" y="140">Índice corto, detalle por tema.</text>
-    <text class="s" x="451" y="162">Cada lección, con su porqué.</text>
-    <text class="t" x="451" y="192" fill="#93a4b8" font-style="italic">"¿Qué pasó y qué aprendí?"</text>
-
-    <rect fill="#161c24" stroke-width="1.7" x="820" y="40" width="330" height="170" rx="12" stroke="#FF9900"/>
-    <text class="s2" x="846" y="76" fill="#FF9900">CAPA 3</text>
-    <text class="tb" x="846" y="110">RAG vectorial</text>
-    <text class="s" x="846" y="140">Recuperado por significado,</text>
-    <text class="s" x="846" y="162">no por palabra exacta.</text>
-    <text class="t" x="846" y="192" fill="#93a4b8" font-style="italic">"¿A qué se parece esto?"</text>
-
-    <path class="lna" d="M195 210 L195 300 L480 300" marker-end="url(#a)"/>
-    <path class="lna" d="M590 210 L590 300" marker-end="url(#a)"/>
-    <path class="lna" d="M985 210 L985 300 L700 300" marker-end="url(#a)"/>
-
-    <rect class="box" x="380" y="308" width="420" height="104" rx="12"/>
-    <use href="#i-github" x="402" y="332" width="48" height="48"/>
-    <text class="tb" x="468" y="352">Cerebro de equipo</text>
-    <text class="s" x="468" y="378">un repo git: push → reindexado →</text>
-    <text class="s" x="468" y="398">todos los agentes del equipo lo saben</text>
-  </svg>
+<section data-notes="<b>4:00–4:50</b> · Sin memoria, cada incidente arranca de cero. Tres capas y una pregunta cada una: cómo trabajo, qué pasó, a qué se parece. No expliques más que eso.">
+  <img class="bg" src="img/memoria.jpg" alt="">
+  <div class="scrim l"></div>
+  <div class="wrap narrow">
+    <div class="kicker">Memoria</div>
+    <h2>Sin memoria,<br>cada incidente<br>empieza de cero.</h2>
+    <div class="three">
+      <div><b>Instrucciones</b>¿cómo trabajo?</div>
+      <div><b>Operativa</b>¿qué pasó?</div>
+      <div><b>RAG</b>¿a qué se parece?</div>
+    </div>
   </div>
 </section>
 
-<section data-notes="<b>5:00–6:00</b> · Explicá el RAG sin jerga. Se indexa por fragmentos, no documentos enteros, porque un texto largo en un solo vector se diluye y deja de recuperarse. Ese detalle técnico es el que separa un RAG que funciona de uno que no.">
-  <div class="kicker">RAG operativo</div>
-  <h2>No es un buscador. Es memoria por significado.</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 420">
-    <text class="s2" x="40" y="40">INDEXAR · una vez, y cada vez que se aprende algo</text>
-    <rect class="box" x="40" y="58" width="180" height="76" rx="10"/>
-    <text class="t" x="130" y="90" text-anchor="middle">Runbooks</text>
-    <text class="s" x="130" y="112" text-anchor="middle">recaps, lecciones</text>
-    <line class="ln" x1="225" y1="96" x2="290" y2="96" marker-end="url(#an)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="295" y="58" width="200" height="76" rx="10" stroke="#FF9900"/>
-    <text class="t" x="395" y="90" text-anchor="middle">Fragmentos</text>
-    <text class="s" x="395" y="112" text-anchor="middle">~400 caracteres cada uno</text>
-    <line class="ln" x1="500" y1="96" x2="565" y2="96" marker-end="url(#an)"/>
-    <rect class="box" x="570" y="58" width="200" height="76" rx="10"/>
-    <text class="t" x="670" y="90" text-anchor="middle">Embeddings</text>
-    <text class="s" x="670" y="112" text-anchor="middle">384 dimensiones, local</text>
-    <line class="ln" x1="775" y1="96" x2="840" y2="96" marker-end="url(#an)"/>
-    <rect class="box" x="845" y="58" width="230" height="76" rx="10"/>
-    <use href="#i-qdrant" x="863" y="74" width="44" height="44"/>
-    <text class="t" x="920" y="102">Base vectorial</text>
+<section data-notes="<b>4:50–5:50</b> · Esto es salida real de la demo, no un ejemplo. Recalcá: nadie escribió 'crash loop' en la pregunta. Lo encontró por significado. Eso es RAG, sin jerga.">
+  <div class="scrim c" style="background:#05070a"></div>
+  <div class="wrap">
+    <div class="kicker">RAG · no es un buscador</div>
+    <h2 style="font-size:clamp(24px,3.4vw,52px)">Preguntás mal. Encuentra bien.</h2>
+    <div class="term">$ memoria <span class="y">"el servicio se reinicia todo el tiempo"</span>
 
-    <line class="ln" x1="40" y1="180" x2="1140" y2="180" opacity=".3"/>
-
-    <text class="s2" x="40" y="222" fill="#FF9900">RECUPERAR · cada vez que hay un incidente</text>
-    <rect fill="#161c24" stroke-width="1.7" x="40" y="240" width="430" height="76" rx="10" stroke="#FF9900"/>
-    <text class="t" x="62" y="272" class="mono">"el servicio se reinicia todo el tiempo"</text>
-    <text class="s" x="62" y="296">lo que escribe una persona apurada, a las 3 de la mañana</text>
-    <line class="lna" x1="475" y1="278" x2="560" y2="278" marker-end="url(#a)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="565" y="240" width="510" height="76" rx="10" stroke="#4ade80"/>
-    <text class="t" x="588" y="272" fill="#4ade80">0.60 → runbook "Servicio ECS en crash loop"</text>
-    <text class="s" x="588" y="296">nadie escribió "crash loop" en la pregunta</text>
-
-    <text class="s" x="590" y="376" text-anchor="middle" fill="#93a4b8">Un documento entero en un solo vector se diluye y deja de recuperarse. Por eso, fragmentos.</text>
-  </svg>
+<span class="g">[0.600]</span> Servicio ECS en crash loop        <span class="c">runbook/ecs</span>
+<span class="c">[0.390] Recap - semana del 8 de septiembre   recap/general</span>
+<span class="c">[0.366] Recap - semana del 15 de septiembre  recap/general</span></div>
+    <p class="sub" style="max-width:62ch">Nadie escribió “crash loop” en la pregunta.</p>
   </div>
 </section>
 
-<section data-notes="<b>6:00–7:00</b> · El punto más importante. El prompt es doctrina: un modelo lo puede ignorar. Los permisos no se ignoran. Por eso el agente vive en un rol que NO PUEDE escribir, y escribir exige un OK explícito por acción. Esto se ve en vivo en la demo.">
-  <div class="kicker">Guardarraíles</div>
-  <h2>El prompt es doctrina. Los permisos son el freno.</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 420">
-    <rect class="box" x="30" y="140" width="190" height="110" rx="12"/>
-    <use href="#i-laptop" x="50" y="162" width="44" height="44"/>
-    <text class="t" x="106" y="180">Agente</text>
-    <text class="s" x="106" y="200">decide y propone</text>
+<section data-notes="<b>5:50–6:50</b> · El corazón de la charla. El agente SABE el fix y no puede aplicarlo. El prompt es doctrina: un modelo lo puede ignorar. Los permisos no se ignoran. Este error exacto lo vamos a ver en vivo en la demo.">
+  <img class="bg" src="img/guardarrail.jpg" alt="">
+  <div class="scrim l"></div>
+  <div class="wrap narrow">
+    <div class="kicker">Guardarraíles</div>
+    <h2>Sabe el fix.<br>No puede aplicarlo.</h2>
+    <div class="term" style="max-width:none">$ aws ecs update-service --desired-count 2
 
-    <path class="lng" d="M225 175 L400 118" marker-end="url(#ag)"/>
-    <path class="lnr" d="M225 215 L400 272" marker-end="url(#ar)"/>
-
-    <rect x="405" y="60" width="330" height="120" rx="12" fill="#101a12" stroke="#4ade80" stroke-width="1.6"/>
-    <text class="tb" x="430" y="98" fill="#4ade80">LEER</text>
-    <text class="s" x="430" y="126">describe · list · get · logs</text>
-    <text class="s" x="430" y="150">sin pedir permiso a nadie</text>
-
-    <rect x="405" y="212" width="330" height="120" rx="12" fill="#1d1114" stroke="#DD344C" stroke-width="1.6"/>
-    <text class="tb" x="430" y="250" fill="#f87171">ESCRIBIR</text>
-    <text class="s" x="430" y="278">update · delete · apply</text>
-    <text class="s mono" x="430" y="304" fill="#f87171">AccessDenied: explicit deny</text>
-
-    <path class="ln" d="M740 272 L860 272" marker-end="url(#an)"/>
-    <rect fill="#161c24" stroke-width="1.7" x="865" y="212" width="285" height="120" rx="12" stroke="#FF9900"/>
-    <use href="#i-iam" x="885" y="234" width="42" height="42"/>
-    <text class="t" x="940" y="252">OK explícito</text>
-    <text class="s" x="940" y="274">de una persona</text>
-    <text class="s" x="885" y="306">y recién ahí, el rol operador</text>
-
-    <rect class="box" x="865" y="60" width="285" height="120" rx="12"/>
-    <text class="t" x="890" y="98">Dos llaves</text>
-    <text class="s" x="890" y="126">borrar datos o infraestructura</text>
-    <text class="s" x="890" y="150">necesita dos personas</text>
-  </svg>
+<span class="r">AccessDeniedException</span>: not authorized to perform
+ecs:UpdateService <span class="r">— explicit deny in an identity-based policy</span></div>
   </div>
 </section>
 
-<section data-notes="<b>7:00–8:15</b> · Dos historias, no tres. La de Kafka es la mejor: la retención estaba configurada y no funcionaba, porque el segmento nunca rotaba. Ese detalle es lo que la gente se lleva a su casa.">
-  <div class="kicker">Casos reales</div>
-  <h2>Antes <span style="color:var(--accent)">→</span> después</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 400">
-    <rect class="box" x="30" y="30" width="545" height="340" rx="14"/>
-    <text class="s2" x="58" y="68" fill="#FF9900">CLUSTER KAFKA DE PRODUCCIÓN</text>
-    <text class="huge" x="58" y="140" fill="#f87171" font-size="52">2 de 3</text>
-    <text class="t" x="58" y="170">brokers caídos · disco lleno · sin escrituras</text>
-    <line class="ln" x1="58" y1="196" x2="545" y2="196" opacity=".5"/>
-    <text class="s" x="58" y="228">La retención estaba configurada</text>
-    <text class="t" x="58" y="254" fill="#FF9900">y no se aplicaba nunca.</text>
-    <text class="s" x="58" y="282">Con segmentos de 256 MB, una retención de 60 s</text>
-    <text class="s" x="58" y="302">jamás llegaba a ejecutarse.</text>
-    <text class="tb" x="58" y="344" fill="#4ade80">→ 3/3 arriba · 0 particiones sub-replicadas</text>
-
-    <rect class="box" x="605" y="30" width="545" height="340" rx="14"/>
-    <text class="s2" x="633" y="68" fill="#FF9900">RÉPLICA MONGODB DE 3 NODOS</text>
-    <text class="huge" x="633" y="140" fill="#f87171" font-size="52">89–95%</text>
-    <text class="t" x="633" y="170">de disco ocupado en los tres nodos</text>
-    <line class="ln" x1="633" y1="196" x2="1120" y2="196" opacity=".5"/>
-    <text class="s" x="633" y="228">Un buffer huérfano de 30 GB y una colección</text>
-    <text class="t" x="633" y="254" fill="#FF9900">de 52 millones de documentos</text>
-    <text class="s" x="633" y="282">sin política de retención. Primero se respaldaron</text>
-    <text class="s" x="633" y="302">los índices; recién después se tocó.</text>
-    <text class="tb" x="633" y="344" fill="#4ade80">→ 55–62% · sin perder un dato</text>
-  </svg>
+<section data-notes="<b>6:50–7:20</b> · Corto. El prompt lo puede ignorar un modelo; la IAM no. Y para lo irreversible, dos personas.">
+  <img class="bg" src="img/dos-llaves.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <h2>El prompt es doctrina.<br>Los permisos son el freno.</h2>
+    <p class="sub">Y para borrar producción: dos personas, dos llaves.</p>
   </div>
 </section>
 
-<section data-notes="<b>8:15–9:00</b> · Estas cinco salieron caras. Detenete en la primera y en la última: la última es la tesis de toda la charla.">
-  <div class="kicker">Lo que aprendimos a golpes</div>
-  <h2>Cinco lecciones</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 400">
-    <g>
-      <rect class="box" x="30" y="30" width="1120" height="62" rx="10"/>
-      <text class="tb" x="58" y="70" fill="#FF9900">01</text>
-      <text class="t" x="115" y="60">"No responde" no es "está caído".</text>
-      <text class="s" x="115" y="82">Un chequeo marcó la base vectorial en rojo: el motor estaba sano, el problema era una regla de red.</text>
-    </g>
-    <g>
-      <rect class="box" x="30" y="104" width="1120" height="62" rx="10"/>
-      <text class="tb" x="58" y="144" fill="#FF9900">02</text>
-      <text class="t" x="115" y="134">"No tengo acceso" casi nunca es cierto.</text>
-      <text class="s" x="115" y="156">Medir con todas las identidades antes de decirlo. Un 401 puede ser rate limit, no falta de permiso.</text>
-    </g>
-    <g>
-      <rect class="box" x="30" y="178" width="1120" height="62" rx="10"/>
-      <text class="tb" x="58" y="218" fill="#FF9900">03</text>
-      <text class="t" x="115" y="208">Nada de "arreglado" antes de verificarlo en runtime.</text>
-      <text class="s" x="115" y="230">Ni el push, ni el build verde, ni la buena intención cuentan como verificación.</text>
-    </g>
-    <g>
-      <rect class="box" x="30" y="252" width="1120" height="62" rx="10"/>
-      <text class="tb" x="58" y="292" fill="#FF9900">04</text>
-      <text class="t" x="115" y="282">La memoria necesita higiene.</text>
-      <text class="s" x="115" y="304">Índice corto, detalle por tema, y borrar lo que resultó falso. Una memoria que miente es peor que ninguna.</text>
-    </g>
-    <g>
-      <rect x="30" y="326" width="1120" height="62" rx="10" fill="#1d1410" stroke="#FF9900" stroke-width="1.8"/>
-      <text class="tb" x="58" y="366" fill="#FF9900">05</text>
-      <text class="t" x="115" y="356">El agente propone, la persona autoriza.</text>
-      <text class="s" x="115" y="378">Autonomía sin frenos no escala. Frenos sin autonomía, tampoco.</text>
-    </g>
-  </svg>
+<section data-notes="<b>7:20–8:20</b> · Dos historias reales, anonimizadas. Contá la de Kafka: la retención estaba configurada y no se aplicaba nunca, porque con segmentos de 256 MB el segmento activo jamás rotaba. Ese detalle es lo que se llevan a su casa.">
+  <img class="bg" src="img/incidente.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <div class="kicker">Casos reales</div>
+    <div class="ba">
+      <div>
+        <p class="sub" style="color:#93a4b8;font-size:clamp(13px,1.3vw,20px)">KAFKA · brokers arriba</p>
+        <p class="x"><span style="color:var(--bad)">2/3</span> → <span style="color:var(--good)">3/3</span></p>
+        <p class="sub" style="font-size:clamp(13px,1.35vw,21px);max-width:34ch">La retención estaba configurada y no se aplicaba nunca.</p>
+      </div>
+      <div>
+        <p class="sub" style="color:#93a4b8;font-size:clamp(13px,1.3vw,20px)">MONGODB · disco ocupado</p>
+        <p class="x"><span style="color:var(--bad)">95%</span> → <span style="color:var(--good)">55%</span></p>
+        <p class="sub" style="font-size:clamp(13px,1.35vw,21px);max-width:34ch">52 millones de documentos sin política de retención.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section data-notes="<b>9:00–10:00</b> · Pasá a la demo diciendo exactamente qué van a ver, en tres actos. Y avisá que el repositorio queda público para que lo levanten en su propia cuenta.">
-  <div class="kicker">Demo en vivo</div>
-  <h2>Tres actos</h2>
-  <div class="fill">
-  <svg class="diag" viewBox="0 0 1180 420">
-    <rect fill="#161c24" stroke-width="1.7" x="30" y="40" width="355" height="290" rx="14" stroke="#FF9900"/>
-    <text class="s2" x="58" y="78" fill="#FF9900">ACTO 1 · AUTOMATIZACIÓN</text>
-    <text class="tb" x="58" y="112">Despliegue</text>
-    <use href="#i-github" x="58" y="132" width="38" height="38"/>
-    <text class="s" x="108" y="146">pido en español</text>
-    <text class="s" x="108" y="164">"desplegá la versión nueva"</text>
-    <text class="s" x="58" y="204">El agente edita la infraestructura</text>
-    <text class="s" x="58" y="224">como código y hace push.</text>
-    <text class="s" x="58" y="252">El pipeline entra por OIDC</text>
-    <text class="t" x="58" y="276" fill="#4ade80">sin una sola llave guardada</text>
-    <text class="s" x="58" y="306">y el servicio queda en la versión nueva.</text>
+<section data-notes="<b>8:20–8:50</b> · La lección que más caro salió. Un chequeo automático marcó la base vectorial en rojo. El motor estaba sano: el problema era una regla de red. Verificar cuesta un minuto; un falso positivo despierta a tres personas.">
+  <img class="bg" src="img/falsa-alarma.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <div class="kicker">Lo que aprendimos a golpes</div>
+    <h2>“No responde”<br>no es “está caído”.</h2>
+  </div>
+</section>
 
-    <rect fill="#161c24" stroke-width="1.7" x="412" y="40" width="355" height="290" rx="14" stroke="#f87171"/>
-    <text class="s2" x="440" y="78" fill="#f87171">ACTO 2 · RAG</text>
-    <text class="tb" x="440" y="112">Incidente</text>
-    <use href="#i-qdrant" x="440" y="132" width="38" height="38"/>
-    <text class="s" x="490" y="146">alguien despliega a mano,</text>
-    <text class="s" x="490" y="164">fuera del pipeline</text>
-    <text class="s" x="440" y="204">Crash loop. El agente recuerda</text>
-    <text class="s" x="440" y="224">el runbook y diagnostica.</text>
-    <text class="s" x="440" y="252">Intenta escribir el fix y la IAM</text>
-    <text class="t mono" x="440" y="276" fill="#f87171">explicit deny</text>
-    <text class="s" x="440" y="306">en vivo, delante de ustedes.</text>
-
-    <rect fill="#161c24" stroke-width="1.7" x="794" y="40" width="355" height="290" rx="14" stroke="#4ade80"/>
-    <text class="s2" x="822" y="78" fill="#4ade80">ACTO 3 · MEMORIA</text>
-    <text class="tb" x="822" y="112">Fix y aprendizaje</text>
-    <use href="#i-cloudwatch" x="822" y="132" width="38" height="38"/>
-    <text class="s" x="872" y="146">la causa raíz sale del log,</text>
-    <text class="s" x="872" y="164">no del evento</text>
-    <text class="s" x="822" y="204">El fix vuelve por el pipeline:</text>
-    <text class="s" x="822" y="224">no se parcha a mano.</text>
-    <text class="s" x="822" y="252">El agente guarda la lección y,</text>
-    <text class="s" x="822" y="276">al preguntarle qué pasó hoy,</text>
-    <text class="t" x="822" y="300" fill="#4ade80">lo recupera.</text>
-
-    <text class="t" x="590" y="384" text-anchor="middle">El código queda público:
-      <tspan class="mono" fill="#FF9900">github.com/mhilara/ai-agents-in-production</tspan></text>
-  </svg>
+<section data-notes="<b>8:50–10:00</b> · Cierre y pase a la demo. Decí los tres actos en tres palabras y arrancá. El repositorio queda público para que lo levanten en su propia cuenta.">
+  <img class="bg" src="img/demo.jpg" alt="">
+  <div class="scrim b"></div>
+  <div class="wrap bottom">
+    <div class="kicker">Ahora, en vivo</div>
+    <h2>El agente propone.<br>La persona autoriza.</h2>
+    <div class="three" style="margin-top:2vh">
+      <div><b>Despliega</b>en español, por pipeline</div>
+      <div><b>Diagnostica</b>y la IAM lo frena</div>
+      <div><b>Aprende</b>y lo recuerda mañana</div>
+    </div>
   </div>
 </section>
 
