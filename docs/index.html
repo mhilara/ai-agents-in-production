@@ -207,6 +207,21 @@ html,body{overflow-x:hidden}
 section.on .pulso{animation:viaje 3.4s cubic-bezier(.45,0,.55,1) infinite}
 section.on .nodo{animation:latido 3.4s ease-in-out infinite}
 section.on .aro{animation:brillo 3.4s ease-in-out infinite}
+
+.tl{display:block;opacity:0;transform:translateY(5px);
+  animation:tlin .26s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:calc(var(--i)*.045s)}
+@keyframes tlin{to{opacity:1;transform:none}}
+.win-body{position:relative}
+.caret{display:inline-block;width:9px;height:1.05em;vertical-align:-2px;background:var(--accent);
+  animation:blink 1.05s steps(1) infinite;margin-left:3px}
+@keyframes blink{50%{opacity:0}}
+.barg{transform-origin:left center;animation:grow .9s cubic-bezier(.2,.75,.3,1) both;
+  animation-delay:var(--d,0s)}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.pill{opacity:0;animation:rise .5s ease-out forwards;animation-delay:var(--d,0s)}
+.dospanes{display:grid;grid-template-columns:1.05fr 1fr}
+.pane-r{border-left:1px solid #222c38;background:rgba(255,153,0,.022)}
+@media (max-width:900px){.dospanes{grid-template-columns:1fr}.pane-r{border-left:none;border-top:1px solid #222c38}}
 @media print{#ctl,#hint{display:none}}
 @media print{body{overflow:visible}section{display:block!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
 </style>
@@ -812,13 +827,13 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
         <use href="#b-apachekafka" x="30" y="24" width="34" height="34"/>
         <text class="lb2" x="78" y="48" style="font-size:24px">Kafka · brokers en servicio</text>
         <rect x="30" y="86" width="700" height="46" rx="10" fill="#171f29"/>
-        <rect x="30" y="86" width="467" height="46" rx="10" fill="url(#gbar)"/>
+        <rect class="barg" style="--d:.35s" x="30" y="86" width="467" height="46" rx="10" fill="url(#gbar)"/>
         <text class="lb2" x="752" y="118" style="font-size:34px;fill:#ff6b6b">2 de 3</text>
-        <text class="lb5" x="946" y="118" style="font-size:18px">antes</text>
+        <text class="lb5" x="946" y="118" style="font-size:18px">antes</text><g class="pill" style="--d:0.5s" transform="translate(1024,96)"><rect width="82" height="28" rx="6" fill="rgba(221,52,76,.16)" stroke="rgba(221,52,76,.55)"/><text class="chip" x="41" y="19" text-anchor="middle" style="fill:#ff7b8c;font-size:12px">ALARM</text></g>
         <rect x="30" y="148" width="700" height="46" rx="10" fill="#171f29"/>
-        <rect x="30" y="148" width="700" height="46" rx="10" fill="url(#gbarok)"/>
+        <rect class="barg" style="--d:.95s" x="30" y="148" width="700" height="46" rx="10" fill="url(#gbarok)"/>
         <text class="lb2" x="752" y="180" style="font-size:34px;fill:#5ee89a">3 de 3</text>
-        <text class="lb5" x="946" y="180" style="font-size:18px">después</text>
+        <text class="lb5" x="946" y="180" style="font-size:18px">después</text><g class="pill" style="--d:1.25s" transform="translate(1024,158)"><rect width="82" height="28" rx="6" fill="rgba(74,222,128,.14)" stroke="rgba(74,222,128,.5)"/><text class="chip" x="41" y="19" text-anchor="middle" style="fill:#5ee89a;font-size:12px">OK</text></g>
         <text class="lb5" x="30" y="226" style="font-size:18px">la retención estaba configurada <tspan style="fill:#FF9900">y no se aplicaba nunca</tspan></text>
       </g>
 
@@ -828,13 +843,13 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
         <use href="#b-mongodb" x="30" y="290" width="34" height="34"/>
         <text class="lb2" x="78" y="314" style="font-size:24px">MongoDB · disco ocupado</text>
         <rect x="30" y="352" width="700" height="46" rx="10" fill="#171f29"/>
-        <rect x="30" y="352" width="665" height="46" rx="10" fill="url(#gbar)"/>
+        <rect class="barg" style="--d:.65s" x="30" y="352" width="665" height="46" rx="10" fill="url(#gbar)"/>
         <text class="lb2" x="752" y="384" style="font-size:34px;fill:#ff6b6b">95%</text>
-        <text class="lb5" x="946" y="384" style="font-size:18px">antes</text>
+        <text class="lb5" x="946" y="384" style="font-size:18px">antes</text><g class="pill" style="--d:0.8s" transform="translate(1024,362)"><rect width="82" height="28" rx="6" fill="rgba(221,52,76,.16)" stroke="rgba(221,52,76,.55)"/><text class="chip" x="41" y="19" text-anchor="middle" style="fill:#ff7b8c;font-size:12px">ALARM</text></g>
         <rect x="30" y="414" width="700" height="46" rx="10" fill="#171f29"/>
-        <rect x="30" y="414" width="385" height="46" rx="10" fill="url(#gbarok)"/>
+        <rect class="barg" style="--d:1.25s" x="30" y="414" width="385" height="46" rx="10" fill="url(#gbarok)"/>
         <text class="lb2" x="752" y="446" style="font-size:34px;fill:#5ee89a">55%</text>
-        <text class="lb5" x="946" y="446" style="font-size:18px">después</text>
+        <text class="lb5" x="946" y="446" style="font-size:18px">después</text><g class="pill" style="--d:1.55s" transform="translate(1024,424)"><rect width="82" height="28" rx="6" fill="rgba(74,222,128,.14)" stroke="rgba(74,222,128,.5)"/><text class="chip" x="41" y="19" text-anchor="middle" style="fill:#5ee89a;font-size:12px">OK</text></g>
         <text class="lb5" x="30" y="492" style="font-size:18px">52 millones de documentos <tspan style="fill:#FF9900">sin política de retención</tspan></text>
       </g>
     </svg>
@@ -848,27 +863,44 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
     <div class="fill">
       <div class="win an" style="--d:.1s">
         <div class="win-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
-          <span class="t">milton@dataplat — agent/</span></div>
-        <div class="win-body"><span class="p">$</span> tree agent/
-
-<span class="d">agent/</span>
-├── <span class="f">CLAUDE.md</span>              <span class="c">las reglas duras · se carga en cada sesión</span>
-├── <span class="f">MEMORY.md</span>              <span class="c">índice corto de lo aprendido</span>
-├── <span class="d">memory/</span>                <span class="c">un archivo por tema, con su porqué</span>
+          <span class="t">agent/ — lo que convierte un modelo en un operador</span></div>
+        <div class="dospanes">
+          <div class="win-body pane-l"><span class="d">agent/</span>
+├── <span class="f">CLAUDE.md</span>          <span class="c">las reglas duras</span>
+├── <span class="f">MEMORY.md</span>          <span class="c">índice de lo aprendido</span>
+├── <span class="d">memory/</span>            <span class="c">un archivo por tema</span>
 │   ├── <span class="f">incidente-kafka-retencion.md</span>
 │   ├── <span class="f">leccion-drift-fuera-de-iac.md</span>
-│   └── <span class="f">feedback-no-declarar-acceso-denegado.md</span>
-├── <span class="d">skills/</span>                <span class="c">un runbook por situación</span>
-│   ├── <span class="f">ecs-crash-loop/SKILL.md</span>
-│   ├── <span class="f">mongo-disco-lleno/SKILL.md</span>
-│   └── <span class="f">kafka-retencion/SKILL.md</span>
-├── <span class="d">commands/</span>              <span class="c">el día a día</span>
-│   ├── <span class="f">daily-check.md</span>   <span class="f">ecs-debug.md</span>
-│   └── <span class="f">ecs-deploy.md</span>   <span class="f">audit-security-groups.md</span>
-└── <span class="f">.mcp.json</span>              <span class="c">herramientas · el secreto se lee del entorno</span>
+│   └── <span class="f">caso-sso-multicapa.md</span>
+├── <span class="d">recaps/</span>            <span class="c">resúmenes de sesión</span>
+├── <span class="d">skills/</span>            <span class="c">un runbook por situación</span>
+│   ├── <span class="f">ecs-crash-loop/</span>
+│   ├── <span class="f">mongo-disco-lleno/</span>
+│   └── <span class="f">kafka-retencion/</span>
+├── <span class="d">commands/</span>          <span class="c">el día a día</span>
+└── <span class="f">.mcp.json</span>          <span class="c">herramientas</span></div>
+          <div class="win-body pane-r"><span class="c">── CLAUDE.md ─────────────────────────────</span>
 
-<span class="g">✓</span> texto plano, versionado en git · se revisa en un PR y se revierte como código
-<span class="q">→</span> github.com/mhilara/ai-agents-in-production</div>
+<span class="q">## Prohibido</span>
+
+<span class="r">·</span> Ejecutar escrituras en producción sin
+  autorización para <span class="f">esa acción puntual</span>.
+  <span class="c">"Dale" no autoriza todo.</span>
+
+<span class="r">·</span> <span class="f">drop</span> de colecciones, <span class="f">DELETE</span> sin <span class="f">WHERE</span>,
+  borrar infraestructura.
+  <span class="c">Eso necesita dos personas.</span>
+
+<span class="r">·</span> Imprimir o guardar el valor de un
+  secreto. <span class="c">Solo referencias.</span>
+
+<span class="r">·</span> Cambiar a mano lo que gestiona IaC.
+  <span class="c">El fix de un drift es reponer el
+  estado declarado.</span>
+
+<span class="r">·</span> <span class="f">Inventar un número.</span>
+  <span class="c">Si no lo mediste, decilo.</span><span class="caret"></span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -952,12 +984,23 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
 <script>
 const S=[...document.querySelectorAll('section')];let i=0,notesOn=false;
 const notes=document.getElementById('notes');
+
+function animarTerminales(sec){
+  sec.querySelectorAll('.win-body').forEach(b=>{
+    if(b.dataset.listo) { b.querySelectorAll('.tl').forEach((l,i)=>{
+        l.style.animation='none'; void l.offsetWidth; l.style.animation=''; }); return; }
+    const lineas = b.innerHTML.split('\n');
+    b.innerHTML = lineas.map((l,i)=>`<span class="tl" style="--i:${i}">${l || '&nbsp;'}</span>`).join('');
+    b.dataset.listo = '1';
+  });
+}
 function show(n){
   i=Math.max(0,Math.min(S.length-1,n));
   S.forEach((s,k)=>s.classList.toggle('on',k===i));
   document.getElementById('fnum').textContent=(i+1)+' / '+S.length;
   document.getElementById('bar').style.width=((i+1)/S.length*100)+'%';
   notes.innerHTML=S[i].dataset.notes||'';location.hash=i+1;
+  animarTerminales(S[i]);
 }
 addEventListener('keydown',e=>{
   if(['ArrowRight',' ','PageDown','Enter'].includes(e.key)){show(i+1);e.preventDefault();}
