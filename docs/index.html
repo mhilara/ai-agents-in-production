@@ -222,6 +222,16 @@ section.on .aro{animation:brillo 3.4s ease-in-out infinite}
 .dospanes{display:grid;grid-template-columns:1.05fr 1fr}
 .pane-r{border-left:1px solid #222c38;background:rgba(255,153,0,.022)}
 @media (max-width:900px){.dospanes{grid-template-columns:1fr}.pane-r{border-left:none;border-top:1px solid #222c38}}
+
+.video{width:min(58vw,74vh);aspect-ratio:16/9;border-radius:16px;overflow:hidden;
+  border:1px solid #2c3746;box-shadow:0 30px 80px rgba(0,0,0,.65);background:#000}
+.video iframe{width:100%;height:100%;display:block;border:0}
+.frase{font-size:clamp(22px,3vw,44px);font-weight:750;letter-spacing:-.02em}
+.frase-sub{font-size:clamp(14px,1.6vw,24px);color:#93a4b8;margin-top:.6vh}
+.respaldo{display:inline-block;margin-top:1.4vh;font-size:clamp(11px,1.05vw,15px);
+  color:#5d6b7d;text-decoration:none;border-bottom:1px dotted #3c4a5c}
+.respaldo:hover{color:var(--accent);border-color:var(--accent)}
+@media (max-width:900px){.video{width:92vw}}
 @media print{#ctl,#hint{display:none}}
 @media print{body{overflow:visible}section{display:block!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
 </style>
@@ -449,15 +459,18 @@ section.on .aro{animation:brillo 3.4s ease-in-out infinite}
       </g>
 
       <g class="an" style="--d:.8s">
-        <clipPath id="clipTrampa"><rect x="640" y="352" width="520" height="168" rx="14"/></clipPath>
-        <image href="img/guardarrail.jpg" x="640" y="300" width="520" height="272"
-               preserveAspectRatio="xMidYMid slice" clip-path="url(#clipTrampa)" opacity=".62"/>
-        <rect x="640" y="352" width="520" height="168" rx="14" fill="url(#velo)"/>
-        <rect x="640" y="352" width="520" height="168" rx="14" fill="none" stroke="#DD344C" stroke-width="1.8"/>
-        <text class="lb5" x="668" y="388" style="fill:#ff8a9c">LA TRAMPA</text>
-        <text class="lb2" x="668" y="428" style="font-size:22px">Más IA sin guardarraíles</text>
-        <text class="lb2" x="668" y="458" style="font-size:22px;fill:#ff6b6b">empeora la estabilidad.</text>
-        <text class="lb5" x="668" y="496">medido por DORA en 2026</text>
+        <clipPath id="clipIlu"><rect x="640" y="340" width="300" height="180" rx="14"/></clipPath>
+        <image href="img/guardarrail.jpg" x="620" y="300" width="340" height="260"
+               preserveAspectRatio="xMidYMid slice" clip-path="url(#clipIlu)"/>
+        <rect x="640" y="340" width="300" height="180" rx="14" fill="none" stroke="#DD344C" stroke-width="2"/>
+        <text class="lb5" x="640" y="546" style="font-size:14px">el guardarraíl: la barrera que frena la acción</text>
+
+        <text class="lb5" x="978" y="372" style="fill:#ff8a9c">LA TRAMPA</text>
+        <text class="lb2" x="978" y="410" style="font-size:20px">Más IA</text>
+        <text class="lb2" x="978" y="438" style="font-size:20px">sin guardarraíles</text>
+        <text class="lb2" x="978" y="472" style="font-size:20px;fill:#ff6b6b">empeora</text>
+        <text class="lb2" x="978" y="498" style="font-size:20px;fill:#ff6b6b">la estabilidad.</text>
+        <text class="lb5" x="978" y="528" style="font-size:13px">medido por DORA en 2026</text>
       </g>
     </svg>
     </div>
@@ -660,6 +673,24 @@ section.on .aro{animation:brillo 3.4s ease-in-out infinite}
 
 
 
+<section data-notes="<b>5:45–6:10</b> · Rompehielos. Poné el video 15 o 20 segundos, lo justo para que se escuche a Don Ramón explicando con toda seguridad algo que no sabe. Después cortá y decí la frase: así responde un modelo sin RAG. Mucha confianza, cero contexto. Y pasá a la siguiente.">
+  <div class="diagwrap">
+    <div class="kicker an">Antes de entrar en RAG</div>
+    <div class="fill" style="flex-direction:column;gap:2.2vh">
+      <div class="video an" style="--d:.1s">
+        <iframe src="https://www.youtube-nocookie.com/embed/f4Z4cy3Rc9U?rel=0&amp;modestbranding=1"
+          title="Don Ramón explicando" frameborder="0" allowfullscreen
+          allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe>
+      </div>
+      <div class="an" style="--d:.35s;text-align:center">
+        <div class="frase">Mucha confianza. Cero contexto.</div>
+        <div class="frase-sub">así responde un modelo sin RAG</div>
+        <a class="respaldo" href="https://www.youtube.com/watch?v=f4Z4cy3Rc9U" target="_blank" rel="noopener">
+          si no carga: youtube.com/watch?v=f4Z4cy3Rc9U</a>
+      </div>
+    </div>
+  </div>
+</section>
 <section data-notes="<b>5:50–6:40</b> · ROMPEHIELOS, 15 segundos: Don Ramón explicándole el boliche al Chavo. Habla con toda la seguridad del mundo y no tiene ni idea. Eso es un modelo sin RAG: suena convincente y te contesta con lo que recuerda, no con lo que pasa en tu empresa. · RAG significa Retrieval-Augmented Generation: generación aumentada por recuperación. En castellano: antes de responder, el sistema recupera información externa y el modelo responde con eso a la vista, en vez de responder solo con lo que memorizó cuando lo entrenaron. Tres columnas, tres generaciones. La primera, RAG clásico: la pregunta siempre pasa por la base vectorial, aunque no haga falta. La segunda, Agentic RAG: el agente decide SI busca, qué herramienta usa y cuándo parar. La tercera, donde estamos yendo: memoria. El agente no solo lee, también escribe: guarda lo que aprendió y mañana lo recupera. La diferencia entre la primera y la tercera columna es la diferencia entre un buscador y un colega.">
   <div class="diagwrap">
     <div class="kicker an">Qué es RAG</div>
