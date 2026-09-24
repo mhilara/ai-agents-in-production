@@ -36,9 +36,15 @@ resource "aws_iam_role_policy_attachment" "task_execution" {
 
 locals {
   # Sin APP_MESSAGE el contenedor sale con codigo 1 antes de levantar el server.
+  # La app valida su configuracion al arrancar: sin APP_MESSAGE sale con codigo 1
+  # antes de atender trafico. Esa es la falla que se inyecta en la demo.
   app_command = [
     "/bin/sh", "-c",
-    "if [ -z \"$APP_MESSAGE\" ]; then echo 'FATAL: APP_MESSAGE no esta definida' >&2; exit 1; fi; echo \"ingest-api v$APP_VERSION | $APP_MESSAGE\" > /tmp/index.html; echo \"listening on 8080, version $APP_VERSION\"; cd /tmp; exec httpd -f -p 8080"
+    join("", [
+      "if [ -z \"$APP_MESSAGE\" ]; then echo 'FATAL: APP_MESSAGE no esta definida' >&2; exit 1; fi; ",
+      "cd /tmp; cat > index.html <<PAGE\n", local.pagina, "\nPAGE\n",
+      "echo \"listening on 8080, version $APP_VERSION\"; exec httpd -f -p 8080"
+    ])
   ]
 
   app_environment = concat(
@@ -61,6 +67,12 @@ resource "aws_ecs_task_definition" "app" {
     essential   = true
     command     = local.app_command
     environment = local.app_environment
+
+    # El valor no está acá: solo la referencia. ECS lo resuelve al arrancar.
+    secrets = [{
+      name      = "API_TOKEN"
+      valueFrom = aws_secretsmanager_secret.app.arn
+    }]
 
     portMappings = [{
       containerPort = 8080
@@ -90,6 +102,16 @@ resource "aws_ecs_service" "app" {
     security_groups  = [aws_security_group.app.id]
     assign_public_ip = true
   }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.app.arn
+    container_name   = var.service_name
+    container_port   = 8080
+  }
+
+  health_check_grace_period_seconds = 30
+
+  depends_on = [aws_lb_listener.http]
 
   deployment_circuit_breaker {
     enable   = false # queremos ver el crash loop, no que ECS lo tape

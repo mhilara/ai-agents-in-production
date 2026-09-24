@@ -1,7 +1,7 @@
 # Guion de la demo — 10 minutos, 3 actos
 
 Terminal en 18-20 pt. Tres pestañas: **agente** · **AWS** · **pipeline**.
-La IP del servicio la imprime `./preflight.sh`.
+La URL del servicio es estable: `http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/` — no cambia aunque se reemplace la tarea.
 
 ```bash
 export AWS_PROFILE=dataplat-ro     # el agente vive acá
@@ -15,7 +15,7 @@ cd ~/Documents/EMI-talk
 > "Esto es un servicio de ingesta de una plataforma de datos. Está en producción, ahora."
 
 ```bash
-curl http://<IP>:8080/
+curl http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/
 ```
 → `ingest-api v1.4.0 | ok`
 
@@ -36,7 +36,7 @@ gh run watch
 > credenciales temporales para esta corrida y nada más."
 
 ```bash
-curl http://<IP>:8080/
+curl http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/
 ```
 → `ingest-api v1.5.0 | ok`   ⬅ **el despliegue terminó**
 
@@ -99,7 +99,7 @@ aws ecs update-service --cluster dataplat-prod --service ingest-api --desired-co
 ```bash
 git commit --allow-empty -m "restore ingest-api to declared state"
 git push && gh run watch
-curl http://<IP>:8080/
+curl http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/
 ```
 
 **Plan B si el runner tarda o no hay internet:**

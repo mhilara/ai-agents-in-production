@@ -21,18 +21,13 @@ ENVV=$(AWS_PROFILE=dataplat-ro aws ecs describe-task-definition --task-definitio
 case "$ENVV" in None|"") bad "${TD##*/} SIN APP_MESSAGE - correr el fix";; *) ok "${TD##*/} con APP_MESSAGE";; esac
 
 echo "== HTTP"
-T=$(AWS_PROFILE=dataplat-ro aws ecs list-tasks --cluster dataplat-prod --service-name ingest-api \
-  --region us-east-2 --query 'taskArns[0]' --output text)
-ENI=$(AWS_PROFILE=dataplat-ro aws ecs describe-tasks --cluster dataplat-prod --tasks "$T" --region us-east-2 \
-  --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value | [0]" --output text)
-IP=$(AWS_PROFILE=dataplat-ro aws ec2 describe-network-interfaces --network-interface-ids "$ENI" \
-  --region us-east-2 --query 'NetworkInterfaces[0].Association.PublicIp' --output text)
-R=$(curl -s -m 8 "http://$IP:8080/")
-case "$R" in ingest-api\ v*) ok "responde: $R";; *) bad "no responde bien ($IP): $R";; esac
+URL=$(terraform -chdir=demo/terraform output -raw url 2>/dev/null)
+R=$(curl -s -m 10 "$URL")
+case "$R" in ingest-api\ v*) ok "responde: $R";; *) bad "no responde bien: ${R:-vacio}";; esac
 
 echo "== Memoria vectorial"
 H=$(.venv/bin/python scripts/qdrant_search.py "el servicio se reinicia todo el tiempo" 2>/dev/null | grep -m1 "crash loop")
 case "$H" in *"crash loop"*) ok "recupera el runbook correcto";; *) bad "recuperacion rara: $H";; esac
 
 echo
-echo "IP para el curl de la demo:  http://$IP:8080/"
+echo "URL para el curl de la demo:  $URL"

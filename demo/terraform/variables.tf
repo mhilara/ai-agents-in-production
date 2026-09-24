@@ -41,5 +41,5 @@ variable "github_repo" {
 
 variable "budget_alert_email" {
   type    = string
-  default = ""  # se pasa por terraform.tfvars, no se publica
+  default = "" # se pasa por terraform.tfvars, no se publica
 }

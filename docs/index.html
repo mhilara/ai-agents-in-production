@@ -789,35 +789,6 @@ section.on .aro{animation:brillo 3.4s ease-in-out infinite}
   </div>
 </section>
 
-<section data-notes="<b>6:50–7:50</b> · El corazón de la charla, y esto es una sesión real. El agente intenta escribir y la IAM lo niega: no es una regla de buena conducta, es un deny explícito en la política. Después el agente propone: dice qué va a cambiar, sobre qué recurso, cuál es el impacto y cómo se revierte. Yo autorizo esa acción puntual, no todas. Y el cambio entra por el pipeline, no a mano. La frase para dejar: el prompt es doctrina, un modelo lo puede ignorar; los permisos no se ignoran.">
-  <div class="diagwrap">
-    <div class="kicker an">Guardarraíles</div>
-    <div class="fill">
-      <div class="win an" style="--d:.1s">
-        <div class="win-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
-          <span class="t">dataplat-prod — AWS_PROFILE=dataplat-ro</span></div>
-        <div class="win-body"><span class="p">$</span> aws sts get-caller-identity --query Arn --output text
-arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/session
-
-<span class="p">$</span> aws ecs update-service --cluster dataplat-prod --service ingest-api --desired-count 2
-<span class="r">AccessDeniedException</span>: not authorized to perform: ecs:UpdateService
-<span class="r">→ explicit deny in an identity-based policy</span>          <span class="c">← el freno es IAM, no el prompt</span>
-
-<span class="b">agente</span> <span class="c">›</span> Propongo restaurar ingest-api al estado declarado
-       <span class="c">recurso:</span> ecs/dataplat-prod/ingest-api   <span class="c">impacto:</span> 1 tarea   <span class="c">reversible:</span> sí
-       <span class="c">¿autorizás esta acción?</span>
-
-<span class="p">$</span> <span class="q">s</span>
-
-<span class="p">$</span> git commit -m <span class="q">"restore ingest-api to declared state"</span> && git push
-<span class="g">✓</span> pipeline: OIDC → terraform apply → <span class="g">servicio estable 1/1</span>
-
-<span class="c">una autorización por acción · nunca una general · todo queda en la traza</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section data-notes="<b>7:50–8:40</b> · Dos incidentes reales, anonimizados, como los ve el equipo: en un tablero. Kafka: dos de tres brokers caídos por disco lleno. La retención estaba configurada y no se aplicaba nunca, porque con segmentos de doscientos cincuenta y seis megas el segmento activo no rotaba, y la retención solo borra segmentos ya cerrados. Se amplió el disco para recuperar el cluster, se corrigió la configuración de segmentos, y quedó en tres de tres con cero particiones sub-replicadas. MongoDB: tres nodos entre ochenta y nueve y noventa y cinco por ciento de disco. Un buffer huérfano de treinta gigas y una colección de cincuenta y dos millones de documentos sin política de retención. Se respaldaron los índices antes de tocar nada, purga por lotes y compactación nodo por nodo empezando por un secundario. Quedó en cincuenta y cinco por ciento.">
   <div class="diagwrap">
     <div class="kicker an">Casos reales</div>
@@ -944,11 +915,11 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
         <div class="win-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
           <span class="t">guion de la demo — 3 actos</span></div>
         <div class="win-body"><span class="c">── ACTO 1 · AUTOMATIZACIÓN ─────────────────────────────────────────────────────</span>
-<span class="p">$</span> curl http://&lt;ip&gt;:8080/                          <span class="g">ingest-api v1.4.0 | ok</span>
+<span class="p">$</span> curl http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/   <span class="g">v1.4.0 | ok</span>
 <span class="b">agente</span> <span class="c">›</span> <span class="q">"desplegá la versión 1.5.0 de ingest-api"</span>
         <span class="c">edita</span> demo/terraform/terraform.tfvars <span class="c">·</span> git push origin main
 <span class="p">$</span> gh run watch                                   <span class="g">OIDC → terraform apply → ✓</span>
-<span class="p">$</span> curl http://&lt;ip&gt;:8080/                          <span class="g">ingest-api v1.5.0 | ok</span>
+<span class="p">$</span> curl http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/   <span class="g">v1.5.0 | ok</span>
 
 <span class="c">── ACTO 2 · RAG Y DIAGNÓSTICO ──────────────────────────────────────────────────</span>
 <span class="p">$</span> ./demo/break.sh                                 <span class="r">deploy manual fuera de IaC</span>
