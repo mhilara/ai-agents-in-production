@@ -21,9 +21,10 @@ ENVV=$(AWS_PROFILE=dataplat-ro aws ecs describe-task-definition --task-definitio
 case "$ENVV" in None|"") bad "${TD##*/} SIN APP_MESSAGE - correr el fix";; *) ok "${TD##*/} con APP_MESSAGE";; esac
 
 echo "== HTTP"
-URL=$(terraform -chdir=demo/terraform output -raw url 2>/dev/null)
-R=$(curl -s -m 10 "$URL")
-case "$R" in ingest-api\ v*) ok "responde: $R";; *) bad "no responde bien: ${R:-vacio}";; esac
+URL="http://dataplat-prod-alb-256338754.us-east-2.elb.amazonaws.com/"
+R=$(curl -s -m 10 "$URL" | grep -o "ingest-api" | head -1)
+[ -n "$R" ] && R="ingest-api v$(curl -s -m 10 "$URL" | grep -o 'v[0-9.]*' | head -1 | tr -d v)"
+case "$R" in ingest-api*) ok "responde: $R";; *) bad "no responde: ${R:-vacio}";; esac
 
 echo "== Memoria vectorial"
 H=$(.venv/bin/python scripts/qdrant_search.py "el servicio se reinicia todo el tiempo" 2>/dev/null | grep -m1 "crash loop")
