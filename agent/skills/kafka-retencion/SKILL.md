@@ -1,5 +1,7 @@
 ---
 name: kafka-retencion
+titulo: Retención de Kafka que nunca se aplica
+sistema: kafka
 description: Brokers de Kafka caídos o disco lleno cuando la retención parece estar configurada. Usar ante particiones sub-replicadas, escrituras rechazadas o discos llenos en el cluster.
 ---
 

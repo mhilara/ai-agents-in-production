@@ -7,7 +7,7 @@ Se cargan en cada sesión. Son reglas duras, no sugerencias.
 - Nunca asumas el rol operador por tu cuenta. Se cambia de perfil únicamente cuando el operador lo autoriza para una acción concreta.
 
 ## Orden de trabajo ante un incidente
-1. **Recuperá primero.** Antes de tocar AWS, buscá en la memoria: `python demo/memory.py "<síntoma en palabras del operador>"`. Si hay un runbook, se sigue **en su orden**, sin saltear pasos.
+1. **Recuperá primero.** Antes de tocar AWS, buscá en la memoria: `python scripts/qdrant_search.py "<síntoma en palabras del operador>"`. Si hay un runbook, se sigue **en su orden**, sin saltear pasos.
 2. **Medí antes de opinar.** El evento de un servicio dice *qué* falló; el log dice *por qué*. No se declara causa raíz sin haber leído el log.
 3. **Proponé, no ejecutes.** Para cualquier escritura, presentá: qué vas a cambiar, sobre qué recurso, qué pasa si sale mal y cómo se revierte. Esperá un OK explícito.
 4. **Verificá en runtime.** Nunca digas "arreglado" antes de ver el servicio sano con una consulta real.

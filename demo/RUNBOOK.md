@@ -59,9 +59,9 @@ ingest-api se está reiniciando todo el tiempo. ¿Qué pasa?
 
 **1 · El agente recuerda** (RAG, no búsqueda de texto):
 ```bash
-.venv/bin/python demo/memory.py "el servicio se reinicia todo el tiempo en ECS"
+.venv/bin/python scripts/qdrant_search.py "el servicio se reinicia todo el tiempo en ECS"
 ```
-→ primero el runbook **"Servicio ECS en crash loop"**, score ~0.60
+→ primero el runbook **"Servicio ECS en crash loop"**, score ~0.50
 
 > "Yo nunca escribí 'crash loop'. Lo encontró por significado."
 
@@ -109,8 +109,8 @@ AWS_PROFILE=dataplat-op terraform -chdir=demo/terraform apply -auto-approve
 
 **El agente guarda lo aprendido:**
 ```bash
-.venv/bin/python demo/memory.py remember demo/learned/incidente-de-hoy.md
-.venv/bin/python demo/memory.py "qué pasó hoy con ingest-api"
+cp demo/learned/incidente-de-hoy.md agent/memory/ && .venv/bin/python scripts/qdrant_index.py
+.venv/bin/python scripts/qdrant_search.py "qué pasó hoy con ingest-api"
 ```
 
 > "El próximo incidente parecido no empieza de cero. Eso separa un agente de un chatbot:
@@ -124,6 +124,6 @@ AWS_PROFILE=dataplat-op terraform -chdir=demo/terraform apply -auto-approve
 |---|---|
 | No hay internet | Video de respaldo (`slides/respaldo.mov`) |
 | El pipeline tarda | `terraform apply` local con `dataplat-op` |
-| Qdrant no responde | Abrir el runbook en `demo/seed-memory/` y leerlo |
+| Qdrant no responde | Abrir `agent/skills/ecs-crash-loop/SKILL.md` y seguirlo a mano |
 | El task no muere en 60 s | Seguir hablando de memoria, revisar a los 90 s |
 | AWS no responde | Video de respaldo |

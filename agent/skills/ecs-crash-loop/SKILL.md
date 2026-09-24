@@ -1,5 +1,7 @@
 ---
 name: ecs-crash-loop
+titulo: Servicio ECS en crash loop
+sistema: ecs
 description: Diagnosticar un servicio ECS que reinicia sus tareas sin llegar a servir tráfico. Usar cuando el operador diga que un servicio "se reinicia", "se cae solo", "no levanta" o "está en crash loop".
 ---
 

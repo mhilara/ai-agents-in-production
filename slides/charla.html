@@ -786,9 +786,9 @@ html,body{overflow-x:hidden}
 <span class="q">3</span> <span class="f">vectorial</span>          <span class="d">Qdrant</span>                se recupera, no se lee          <span class="b">bajo demanda</span>
 <span class="c">──────────────────────────────────────────────────────────────────────────────────────</span>
 
-<span class="p">$</span> memoria <span class="q">"el servicio se reinicia todo el tiempo"</span>
-  <span class="g">0.600</span>  runbook <span class="f">"Servicio ECS en crash loop"</span>     <span class="c">← ninguna palabra coincidía</span>
-  <span class="c">0.390  recap - semana del 8 de septiembre</span>
+<span class="p">$</span> qdrant_search.py <span class="q">"el servicio se reinicia todo el tiempo"</span>
+  <span class="g">0.503</span>  <span class="f">Servicio ECS en crash loop</span>   <span class="c">runbook/ecs</span>   <span class="c">← ninguna palabra coincidía</span>
+  <span class="c">0.439  Recap - semana del 15 de septiembre    recap/general</span>
 
 <span class="r">✗</span> un chat recuerda mientras dura la conversación
 <span class="g">✓</span> esto persiste entre sesiones, entre días y entre personas</div>
@@ -921,7 +921,7 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
 
 <span class="c">── ACTO 2 · RAG Y DIAGNÓSTICO ──────────────────────────────────────────────────</span>
 <span class="p">$</span> ./demo/break.sh                                 <span class="r">deploy manual fuera de IaC</span>
-<span class="p">$</span> memoria <span class="q">"el servicio se reinicia todo el tiempo"</span>   <span class="g">0.600 → ECS crash loop</span>
+<span class="p">$</span> qdrant_search.py <span class="q">"el servicio se reinicia…"</span>        <span class="g">0.503 → ECS crash loop</span>
 <span class="p">$</span> aws ecs describe-services --query <span class="q">'…events[0:5]'</span>
 <span class="p">$</span> aws ecs describe-tasks --query <span class="q">'…exitCode'</span>       <span class="r">exit 1</span>
 <span class="p">$</span> aws logs tail /dataplat/prod/ingest-api         <span class="r">FATAL: APP_MESSAGE no definida</span>
@@ -929,8 +929,8 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
 
 <span class="c">── ACTO 3 · FIX Y MEMORIA ──────────────────────────────────────────────────────</span>
 <span class="p">$</span> git commit -m <span class="q">"restore to declared state"</span> && git push
-<span class="p">$</span> memoria remember demo/learned/incidente-de-hoy.md
-<span class="p">$</span> memoria <span class="q">"qué pasó hoy con ingest-api"</span>            <span class="g">lo recupera</span></div>
+<span class="p">$</span> qdrant_index.py                                 <span class="c">reindexa con la lección nueva</span>
+<span class="p">$</span> qdrant_search.py <span class="q">"qué pasó hoy con ingest-api"</span>   <span class="g">lo recupera</span></div>
       </div>
     </div>
   </div>

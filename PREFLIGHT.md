@@ -5,7 +5,7 @@ Correr `./preflight.sh` y que todo diga OK.
 - [ ] `AWS_PROFILE=dataplat-ro aws sts get-caller-identity` → rol readonly
 - [ ] Servicio `ingest-api` en 1/1 y `curl` responde `ingest-api ok`
 - [ ] Task definition en **revisión 1** (si quedó en 2, correr el fix)
-- [ ] `memory.py "ecs en crash loop"` → primero el runbook de ECS
+- [ ] `scripts/qdrant_search.py "el servicio se reinicia todo el tiempo"` → primero el runbook de ECS
 - [ ] `break.sh` probado hoy, al menos una vez
 - [ ] Video de respaldo en la laptop, **no en la nube**
 - [ ] Fuente de la terminal en 18-20 pt, tema claro si el proyector lava los colores

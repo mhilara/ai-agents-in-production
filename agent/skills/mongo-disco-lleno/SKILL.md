@@ -1,5 +1,7 @@
 ---
 name: mongo-disco-lleno
+titulo: MongoDB con disco al límite
+sistema: mongodb
 description: MongoDB con disco por encima del 85%. Usar cuando haya alerta de disco, escrituras rechazadas o el operador diga que "Mongo está lleno" o "lento".
 ---
 

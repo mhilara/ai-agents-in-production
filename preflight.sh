@@ -31,7 +31,7 @@ R=$(curl -s -m 8 "http://$IP:8080/")
 case "$R" in ingest-api\ v*) ok "responde: $R";; *) bad "no responde bien ($IP): $R";; esac
 
 echo "== Memoria vectorial"
-H=$(.venv/bin/python demo/memory.py "ecs en crash loop" 2>/dev/null | grep -m1 '^\[')
+H=$(.venv/bin/python scripts/qdrant_search.py "el servicio se reinicia todo el tiempo" 2>/dev/null | grep -m1 "crash loop")
 case "$H" in *"crash loop"*) ok "recupera el runbook correcto";; *) bad "recuperacion rara: $H";; esac
 
 echo
