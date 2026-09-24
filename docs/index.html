@@ -199,6 +199,14 @@ html,body{overflow-x:hidden}
   .panel{padding:1.4vh 3vw}
 }
 .sub2{font-size:clamp(12px,1.25vw,19px);color:#8496aa;margin-top:-.4vh}
+
+@keyframes viaje{0%{transform:translateY(0);opacity:0}
+  6%{opacity:1}94%{opacity:1}100%{transform:translateY(312px);opacity:0}}
+@keyframes latido{0%,100%{r:6}50%{r:9.5}}
+@keyframes brillo{0%,100%{opacity:.35}50%{opacity:1}}
+section.on .pulso{animation:viaje 3.4s cubic-bezier(.45,0,.55,1) infinite}
+section.on .nodo{animation:latido 3.4s ease-in-out infinite}
+section.on .aro{animation:brillo 3.4s ease-in-out infinite}
 @media print{#ctl,#hint{display:none}}
 @media print{body{overflow:visible}section{display:block!important;position:relative;height:100vh;page-break-after:always}#notes,footer,.bar{display:none}}
 </style>
@@ -631,37 +639,6 @@ html,body{overflow-x:hidden}
 
 
 
-<section data-notes="<b>5:00–5:50</b> · Esto es lo que convierte un modelo en un operador, y está todo público. No es el modelo: es el árbol de archivos. CLAUDE punto eme de son las reglas duras que se cargan en cada sesión. La carpeta memory guarda lo aprendido, un archivo por tema, con su porqué. Skills son los runbooks, uno por situación. Commands son los comandos del día a día. Y el mcp punto json define las herramientas: el secreto se lee del entorno al ejecutar, nunca está en el archivo. Todo texto plano versionado en git.">
-  <div class="diagwrap">
-    <div class="kicker an">El agente</div>
-    <div class="fill">
-      <div class="win an" style="--d:.1s">
-        <div class="win-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
-          <span class="t">milton@dataplat — agent/</span></div>
-        <div class="win-body"><span class="p">$</span> tree agent/
-
-<span class="d">agent/</span>
-├── <span class="f">CLAUDE.md</span>              <span class="c">las reglas duras · se carga en cada sesión</span>
-├── <span class="f">MEMORY.md</span>              <span class="c">índice corto de lo aprendido</span>
-├── <span class="d">memory/</span>                <span class="c">un archivo por tema, con su porqué</span>
-│   ├── <span class="f">incidente-kafka-retencion.md</span>
-│   ├── <span class="f">leccion-drift-fuera-de-iac.md</span>
-│   └── <span class="f">feedback-no-declarar-acceso-denegado.md</span>
-├── <span class="d">skills/</span>                <span class="c">un runbook por situación</span>
-│   ├── <span class="f">ecs-crash-loop/SKILL.md</span>
-│   ├── <span class="f">mongo-disco-lleno/SKILL.md</span>
-│   └── <span class="f">kafka-retencion/SKILL.md</span>
-├── <span class="d">commands/</span>              <span class="c">el día a día</span>
-│   ├── <span class="f">daily-check.md</span>   <span class="f">ecs-debug.md</span>
-│   └── <span class="f">ecs-deploy.md</span>   <span class="f">audit-security-groups.md</span>
-└── <span class="f">.mcp.json</span>              <span class="c">herramientas · el secreto se lee del entorno</span>
-
-<span class="g">✓</span> texto plano, versionado en git · se revisa en un PR y se revierte como código
-<span class="q">→</span> github.com/mhilara/ai-agents-in-production</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section data-notes="<b>5:50–6:40</b> · RAG significa Retrieval-Augmented Generation: generación aumentada por recuperación. En castellano: antes de responder, el sistema recupera información externa y el modelo responde con eso a la vista, en vez de responder solo con lo que memorizó cuando lo entrenaron. Tres columnas, tres generaciones. La primera, RAG clásico: la pregunta siempre pasa por la base vectorial, aunque no haga falta. La segunda, Agentic RAG: el agente decide SI busca, qué herramienta usa y cuándo parar. La tercera, donde estamos yendo: memoria. El agente no solo lee, también escribe: guarda lo que aprendió y mañana lo recupera. La diferencia entre la primera y la tercera columna es la diferencia entre un buscador y un colega.">
   <div class="diagwrap">
@@ -670,96 +647,96 @@ html,body{overflow-x:hidden}
     <div class="fill">
     <svg class="diag" viewBox="0 0 1180 540">
       
-      <text class="lb2" x="120" y="46" text-anchor="middle" style="fill:#5B9DF9;font-size:26px">RAG</text>
+      <circle class="pulso" style="animation-delay:0.00s" cx="120" cy="100" r="5" fill="#5B9DF9" opacity="0"/><circle class="pulso" style="animation-delay:0.00s" cx="120" cy="100" r="13" fill="#5B9DF9" opacity="0" filter="url(#soft)"/><text class="lb2" x="120" y="46" text-anchor="middle" style="fill:#5B9DF9;font-size:26px">RAG</text>
       <g class="an" style="--d:0.12s">
-        <circle cx="120" cy="100" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
-        <circle cx="120" cy="100" r="6" fill="#5B9DF9"/>
+        <circle class="aro" style="animation-delay:0.00s" cx="120" cy="100" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.00s" cx="120" cy="100" r="6" fill="#5B9DF9"/>
         <text class="lb5" x="152" y="98" style="fill:#e6eef7;font-size:16px">Pregunta</text>
         <text class="lb5" x="152" y="117" style="font-size:13px">del operador</text></g>
       <path class="draw" style="--d:0.16s;--len:46;stroke:#5B9DF9;stroke-width:1.8;fill:none;opacity:.55" d="M120 120 L120 158"/>
       <g class="an" style="--d:0.20s">
-        <circle cx="120" cy="178" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
-        <circle cx="120" cy="178" r="6" fill="#5B9DF9"/>
+        <circle class="aro" style="animation-delay:0.17s" cx="120" cy="178" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.17s" cx="120" cy="178" r="6" fill="#5B9DF9"/>
         <text class="lb5" x="152" y="176" style="fill:#e6eef7;font-size:16px">Embeddings</text>
         <text class="lb5" x="152" y="195" style="font-size:13px">384 dimensiones</text></g>
       <path class="draw" style="--d:0.24s;--len:46;stroke:#5B9DF9;stroke-width:1.8;fill:none;opacity:.55" d="M120 198 L120 236"/>
       <g class="an" style="--d:0.28s">
-        <circle cx="120" cy="256" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
-        <circle cx="120" cy="256" r="6" fill="#5B9DF9"/>
+        <circle class="aro" style="animation-delay:0.34s" cx="120" cy="256" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.34s" cx="120" cy="256" r="6" fill="#5B9DF9"/>
         <text class="lb5" x="152" y="254" style="fill:#e6eef7;font-size:16px">Base vectorial</text>
         <text class="lb5" x="152" y="273" style="font-size:13px">busca por significado</text></g>
       <path class="draw" style="--d:0.32s;--len:46;stroke:#5B9DF9;stroke-width:1.8;fill:none;opacity:.55" d="M120 276 L120 314"/>
       <g class="an" style="--d:0.36s">
-        <circle cx="120" cy="334" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
-        <circle cx="120" cy="334" r="6" fill="#5B9DF9"/>
+        <circle class="aro" style="animation-delay:0.51s" cx="120" cy="334" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.51s" cx="120" cy="334" r="6" fill="#5B9DF9"/>
         <text class="lb5" x="152" y="332" style="fill:#e6eef7;font-size:16px">Contexto</text>
         <text class="lb5" x="152" y="351" style="font-size:13px">el fragmento que aplica</text></g>
       <path class="draw" style="--d:0.40s;--len:46;stroke:#5B9DF9;stroke-width:1.8;fill:none;opacity:.55" d="M120 354 L120 392"/>
       <g class="an" style="--d:0.44s">
-        <circle cx="120" cy="412" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
-        <circle cx="120" cy="412" r="6" fill="#5B9DF9"/>
+        <circle class="aro" style="animation-delay:0.68s" cx="120" cy="412" r="20" fill="#0d131b" stroke="#5B9DF9" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.68s" cx="120" cy="412" r="6" fill="#5B9DF9"/>
         <text class="lb5" x="152" y="410" style="fill:#e6eef7;font-size:16px">Modelo</text>
         <text class="lb5" x="152" y="429" style="font-size:13px">responde</text></g>
       <line class="ln" x1="345" y1="70" x2="345" y2="470" opacity=".28" stroke-dasharray="6 6"/>
-      <text class="lb2" x="530" y="46" text-anchor="middle" style="fill:#B96BFF;font-size:26px">Agentic RAG</text>
+      <circle class="pulso" style="animation-delay:0.35s" cx="530" cy="100" r="5" fill="#B96BFF" opacity="0"/><circle class="pulso" style="animation-delay:0.35s" cx="530" cy="100" r="13" fill="#B96BFF" opacity="0" filter="url(#soft)"/><text class="lb2" x="530" y="46" text-anchor="middle" style="fill:#B96BFF;font-size:26px">Agentic RAG</text>
       <g class="an" style="--d:0.30s">
-        <circle cx="530" cy="100" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
-        <circle cx="530" cy="100" r="6" fill="#B96BFF"/>
+        <circle class="aro" style="animation-delay:0.35s" cx="530" cy="100" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.35s" cx="530" cy="100" r="6" fill="#B96BFF"/>
         <text class="lb5" x="562" y="98" style="fill:#e6eef7;font-size:16px">Pregunta</text>
         <text class="lb5" x="562" y="117" style="font-size:13px">del operador</text></g>
       <path class="draw" style="--d:0.34s;--len:46;stroke:#B96BFF;stroke-width:1.8;fill:none;opacity:.55" d="M530 120 L530 158"/>
       <g class="an" style="--d:0.38s">
-        <circle cx="530" cy="178" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
-        <circle cx="530" cy="178" r="6" fill="#B96BFF"/>
+        <circle class="aro" style="animation-delay:0.52s" cx="530" cy="178" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.52s" cx="530" cy="178" r="6" fill="#B96BFF"/>
         <text class="lb5" x="562" y="176" style="fill:#e6eef7;font-size:16px">Agente</text>
         <text class="lb5" x="562" y="195" style="font-size:13px">decide si busca</text></g>
       <path class="draw" style="--d:0.42s;--len:46;stroke:#B96BFF;stroke-width:1.8;fill:none;opacity:.55" d="M530 198 L530 236"/>
       <g class="an" style="--d:0.46s">
-        <circle cx="530" cy="256" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
-        <circle cx="530" cy="256" r="6" fill="#B96BFF"/>
+        <circle class="aro" style="animation-delay:0.69s" cx="530" cy="256" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.69s" cx="530" cy="256" r="6" fill="#B96BFF"/>
         <text class="lb5" x="562" y="254" style="fill:#e6eef7;font-size:16px">Herramientas</text>
         <text class="lb5" x="562" y="273" style="font-size:13px">vector · base · API</text></g>
       <path class="draw" style="--d:0.50s;--len:46;stroke:#B96BFF;stroke-width:1.8;fill:none;opacity:.55" d="M530 276 L530 314"/>
       <g class="an" style="--d:0.54s">
-        <circle cx="530" cy="334" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
-        <circle cx="530" cy="334" r="6" fill="#B96BFF"/>
+        <circle class="aro" style="animation-delay:0.86s" cx="530" cy="334" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.86s" cx="530" cy="334" r="6" fill="#B96BFF"/>
         <text class="lb5" x="562" y="332" style="fill:#e6eef7;font-size:16px">Contexto</text>
         <text class="lb5" x="562" y="351" style="font-size:13px">lo que hizo falta</text></g>
       <path class="draw" style="--d:0.58s;--len:46;stroke:#B96BFF;stroke-width:1.8;fill:none;opacity:.55" d="M530 354 L530 392"/>
       <g class="an" style="--d:0.62s">
-        <circle cx="530" cy="412" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
-        <circle cx="530" cy="412" r="6" fill="#B96BFF"/>
+        <circle class="aro" style="animation-delay:1.03s" cx="530" cy="412" r="20" fill="#0d131b" stroke="#B96BFF" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:1.03s" cx="530" cy="412" r="6" fill="#B96BFF"/>
         <text class="lb5" x="562" y="410" style="fill:#e6eef7;font-size:16px">Modelo</text>
         <text class="lb5" x="562" y="429" style="font-size:13px">responde y verifica</text></g>
       <line class="ln" x1="755" y1="70" x2="755" y2="470" opacity=".28" stroke-dasharray="6 6"/>
-      <text class="lb2" x="940" y="46" text-anchor="middle" style="fill:#5ee89a;font-size:26px">Memoria</text>
+      <circle class="pulso" style="animation-delay:0.70s" cx="940" cy="100" r="5" fill="#5ee89a" opacity="0"/><circle class="pulso" style="animation-delay:0.70s" cx="940" cy="100" r="13" fill="#5ee89a" opacity="0" filter="url(#soft)"/><text class="lb2" x="940" y="46" text-anchor="middle" style="fill:#5ee89a;font-size:26px">Memoria</text>
       <g class="an" style="--d:0.48s">
-        <circle cx="940" cy="100" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
-        <circle cx="940" cy="100" r="6" fill="#5ee89a"/>
+        <circle class="aro" style="animation-delay:0.70s" cx="940" cy="100" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.70s" cx="940" cy="100" r="6" fill="#5ee89a"/>
         <text class="lb5" x="972" y="98" style="fill:#e6eef7;font-size:16px">Pregunta</text>
         <text class="lb5" x="972" y="117" style="font-size:13px">del operador</text></g>
       <path class="draw" style="--d:0.52s;--len:46;stroke:#5ee89a;stroke-width:1.8;fill:none;opacity:.55" d="M940 120 L940 158"/>
       <g class="an" style="--d:0.56s">
-        <circle cx="940" cy="178" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
-        <circle cx="940" cy="178" r="6" fill="#5ee89a"/>
+        <circle class="aro" style="animation-delay:0.87s" cx="940" cy="178" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:0.87s" cx="940" cy="178" r="6" fill="#5ee89a"/>
         <text class="lb5" x="972" y="176" style="fill:#e6eef7;font-size:16px">Agente</text>
         <text class="lb5" x="972" y="195" style="font-size:13px">busca y escribe</text></g>
       <path class="draw" style="--d:0.60s;--len:46;stroke:#5ee89a;stroke-width:1.8;fill:none;opacity:.55" d="M940 198 L940 236"/>
       <g class="an" style="--d:0.64s">
-        <circle cx="940" cy="256" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
-        <circle cx="940" cy="256" r="6" fill="#5ee89a"/>
+        <circle class="aro" style="animation-delay:1.04s" cx="940" cy="256" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:1.04s" cx="940" cy="256" r="6" fill="#5ee89a"/>
         <text class="lb5" x="972" y="254" style="fill:#e6eef7;font-size:16px">Memoria</text>
         <text class="lb5" x="972" y="273" style="font-size:13px">lee y guarda lo nuevo</text></g>
       <path class="draw" style="--d:0.68s;--len:46;stroke:#5ee89a;stroke-width:1.8;fill:none;opacity:.55" d="M940 276 L940 314"/>
       <g class="an" style="--d:0.72s">
-        <circle cx="940" cy="334" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
-        <circle cx="940" cy="334" r="6" fill="#5ee89a"/>
+        <circle class="aro" style="animation-delay:1.21s" cx="940" cy="334" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:1.21s" cx="940" cy="334" r="6" fill="#5ee89a"/>
         <text class="lb5" x="972" y="332" style="fill:#e6eef7;font-size:16px">Contexto</text>
         <text class="lb5" x="972" y="351" style="font-size:13px">lo de hoy y lo de antes</text></g>
       <path class="draw" style="--d:0.76s;--len:46;stroke:#5ee89a;stroke-width:1.8;fill:none;opacity:.55" d="M940 354 L940 392"/>
       <g class="an" style="--d:0.80s">
-        <circle cx="940" cy="412" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
-        <circle cx="940" cy="412" r="6" fill="#5ee89a"/>
+        <circle class="aro" style="animation-delay:1.38s" cx="940" cy="412" r="20" fill="#0d131b" stroke="#5ee89a" stroke-width="1.8"/>
+        <circle class="nodo" style="animation-delay:1.38s" cx="940" cy="412" r="6" fill="#5ee89a"/>
         <text class="lb5" x="972" y="410" style="fill:#e6eef7;font-size:16px">Modelo</text>
         <text class="lb5" x="972" y="429" style="font-size:13px">responde y aprende</text></g>
       <g class="an" style="--d:.92s">
@@ -829,51 +806,73 @@ arn:aws:sts::···:assumed-role/<span class="g">dataplat-agent-readonly</span>/
 <section data-notes="<b>7:50–8:40</b> · Dos incidentes reales, anonimizados, como los ve el equipo: en un tablero. Kafka: dos de tres brokers caídos por disco lleno. La retención estaba configurada y no se aplicaba nunca, porque con segmentos de doscientos cincuenta y seis megas el segmento activo no rotaba, y la retención solo borra segmentos ya cerrados. Se amplió el disco para recuperar el cluster, se corrigió la configuración de segmentos, y quedó en tres de tres con cero particiones sub-replicadas. MongoDB: tres nodos entre ochenta y nueve y noventa y cinco por ciento de disco. Un buffer huérfano de treinta gigas y una colección de cincuenta y dos millones de documentos sin política de retención. Se respaldaron los índices antes de tocar nada, purga por lotes y compactación nodo por nodo empezando por un secundario. Quedó en cincuenta y cinco por ciento.">
   <div class="diagwrap">
     <div class="kicker an">Casos reales</div>
-    <div class="fill" style="align-items:stretch;flex-direction:column;gap:1.6vh;justify-content:center">
-      <div class="gridwrap g3c an" style="--d:.1s">
-        <div class="panel">
-          <h4>Kafka · brokers en servicio <span class="badge b-alarm">alarm</span></h4>
-          <div class="v" style="color:#ff6b6b">2<span style="color:#54637a;font-size:.6em">/3</span></div>
-          <div class="u">particiones sub-replicadas: 128</div>
-          <svg viewBox="0 0 250 60" style="width:100%;height:6vh;margin-top:1vh"><path d="M0 3 L36 3 L71 3 L107 21 L143 21 L179 21 L214 21 L250 21" fill="none" stroke="#ff6b6b" stroke-width="2.2" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="panel">
-          <h4>Disco del cluster</h4>
-          <div class="v" style="color:#ff6b6b">100<span style="font-size:.5em">%</span></div>
-          <div class="u">sin espacio para escribir</div>
-          <svg viewBox="0 0 250 60" style="width:100%;height:6vh;margin-top:1vh"><path d="M0 24 L36 19 L71 15 L107 11 L143 7 L179 5 L214 3 L250 3" fill="none" stroke="#ff6b6b" stroke-width="2.2" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="panel" style="border-color:#3a4a5e">
-          <h4>Causa raíz</h4>
-          <div class="u" style="font-size:clamp(12px,1.2vw,18px);color:#e6eef7;line-height:1.5;margin-top:.6vh">
-            La retención estaba configurada<br><span style="color:#FF9900">y no se aplicaba nunca.</span></div>
-          <div class="u" style="margin-top:1vh">segment.bytes 256 MB · el segmento activo no rotaba,<br>y la retención solo borra segmentos cerrados</div>
-        </div>
-      </div>
-      <div class="gridwrap g3c an" style="--d:.28s">
-        <div class="panel">
-          <h4>MongoDB · disco ocupado <span class="badge b-alarm">alarm</span></h4>
-          <div class="v" style="color:#ff6b6b">95<span style="font-size:.5em">%</span></div>
-          <div class="u">3 nodos entre 89 y 95%</div>
-          <svg viewBox="0 0 250 60" style="width:100%;height:6vh;margin-top:1vh"><path d="M0 22 L36 18 L71 15 L107 12 L143 8 L179 6 L214 4 L250 3" fill="none" stroke="#ff6b6b" stroke-width="2.2" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="panel">
-          <h4>Después de la intervención <span class="badge b-ok">ok</span></h4>
-          <div class="v" style="color:#5ee89a">55<span style="font-size:.5em">%</span></div>
-          <div class="u">Kafka: 3/3 · 0 sub-replicadas</div>
-          <svg viewBox="0 0 250 60" style="width:100%;height:6vh;margin-top:1vh"><path d="M0 3 L36 4 L71 7 L107 13 L143 18 L179 23 L214 25 L250 26" fill="none" stroke="#5ee89a" stroke-width="2.2" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="panel" style="border-color:#3a4a5e">
-          <h4>Causa raíz</h4>
-          <div class="u" style="font-size:clamp(12px,1.2vw,18px);color:#e6eef7;line-height:1.5;margin-top:.6vh">
-            Buffer huérfano de 30 GB y<br><span style="color:#FF9900">52 M de documentos sin TTL.</span></div>
-          <div class="u" style="margin-top:1vh">índices respaldados antes de tocar · compactación<br>nodo por nodo, nunca el primario primero</div>
-        </div>
-      </div>
+    <div class="fill">
+    <svg class="diag" viewBox="0 0 1180 500">
+      <g class="an" style="--d:.1s">
+        <use href="#b-apachekafka" x="30" y="24" width="34" height="34"/>
+        <text class="lb2" x="78" y="48" style="font-size:24px">Kafka · brokers en servicio</text>
+        <rect x="30" y="86" width="700" height="46" rx="10" fill="#171f29"/>
+        <rect x="30" y="86" width="467" height="46" rx="10" fill="url(#gbar)"/>
+        <text class="lb2" x="752" y="118" style="font-size:34px;fill:#ff6b6b">2 de 3</text>
+        <text class="lb5" x="946" y="118" style="font-size:18px">antes</text>
+        <rect x="30" y="148" width="700" height="46" rx="10" fill="#171f29"/>
+        <rect x="30" y="148" width="700" height="46" rx="10" fill="url(#gbarok)"/>
+        <text class="lb2" x="752" y="180" style="font-size:34px;fill:#5ee89a">3 de 3</text>
+        <text class="lb5" x="946" y="180" style="font-size:18px">después</text>
+        <text class="lb5" x="30" y="226" style="font-size:18px">la retención estaba configurada <tspan style="fill:#FF9900">y no se aplicaba nunca</tspan></text>
+      </g>
+
+      <line class="ln an" style="--d:.3s" x1="30" y1="262" x2="1150" y2="262" opacity=".28"/>
+
+      <g class="an" style="--d:.4s">
+        <use href="#b-mongodb" x="30" y="290" width="34" height="34"/>
+        <text class="lb2" x="78" y="314" style="font-size:24px">MongoDB · disco ocupado</text>
+        <rect x="30" y="352" width="700" height="46" rx="10" fill="#171f29"/>
+        <rect x="30" y="352" width="665" height="46" rx="10" fill="url(#gbar)"/>
+        <text class="lb2" x="752" y="384" style="font-size:34px;fill:#ff6b6b">95%</text>
+        <text class="lb5" x="946" y="384" style="font-size:18px">antes</text>
+        <rect x="30" y="414" width="700" height="46" rx="10" fill="#171f29"/>
+        <rect x="30" y="414" width="385" height="46" rx="10" fill="url(#gbarok)"/>
+        <text class="lb2" x="752" y="446" style="font-size:34px;fill:#5ee89a">55%</text>
+        <text class="lb5" x="946" y="446" style="font-size:18px">después</text>
+        <text class="lb5" x="30" y="492" style="font-size:18px">52 millones de documentos <tspan style="fill:#FF9900">sin política de retención</tspan></text>
+      </g>
+    </svg>
     </div>
   </div>
 </section>
 
+<section data-notes="<b>5:00–5:50</b> · Esto es lo que convierte un modelo en un operador, y está todo público. No es el modelo: es el árbol de archivos. CLAUDE punto eme de son las reglas duras que se cargan en cada sesión. La carpeta memory guarda lo aprendido, un archivo por tema, con su porqué. Skills son los runbooks, uno por situación. Commands son los comandos del día a día. Y el mcp punto json define las herramientas: el secreto se lee del entorno al ejecutar, nunca está en el archivo. Todo texto plano versionado en git.">
+  <div class="diagwrap">
+    <div class="kicker an">El agente</div>
+    <div class="fill">
+      <div class="win an" style="--d:.1s">
+        <div class="win-bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
+          <span class="t">milton@dataplat — agent/</span></div>
+        <div class="win-body"><span class="p">$</span> tree agent/
+
+<span class="d">agent/</span>
+├── <span class="f">CLAUDE.md</span>              <span class="c">las reglas duras · se carga en cada sesión</span>
+├── <span class="f">MEMORY.md</span>              <span class="c">índice corto de lo aprendido</span>
+├── <span class="d">memory/</span>                <span class="c">un archivo por tema, con su porqué</span>
+│   ├── <span class="f">incidente-kafka-retencion.md</span>
+│   ├── <span class="f">leccion-drift-fuera-de-iac.md</span>
+│   └── <span class="f">feedback-no-declarar-acceso-denegado.md</span>
+├── <span class="d">skills/</span>                <span class="c">un runbook por situación</span>
+│   ├── <span class="f">ecs-crash-loop/SKILL.md</span>
+│   ├── <span class="f">mongo-disco-lleno/SKILL.md</span>
+│   └── <span class="f">kafka-retencion/SKILL.md</span>
+├── <span class="d">commands/</span>              <span class="c">el día a día</span>
+│   ├── <span class="f">daily-check.md</span>   <span class="f">ecs-debug.md</span>
+│   └── <span class="f">ecs-deploy.md</span>   <span class="f">audit-security-groups.md</span>
+└── <span class="f">.mcp.json</span>              <span class="c">herramientas · el secreto se lee del entorno</span>
+
+<span class="g">✓</span> texto plano, versionado en git · se revisa en un PR y se revierte como código
+<span class="q">→</span> github.com/mhilara/ai-agents-in-production</div>
+      </div>
+    </div>
+  </div>
+</section>
 <section data-notes="<b>8:40–9:30</b> · Pasá a la demo. Tres actos sobre un servicio real corriendo en AWS ahora mismo. Uno: le pido en español que despliegue la versión nueva; edita la infraestructura como código, hace push, y el pipeline aplica autenticándose por OIDC, sin ninguna llave guardada. Dos: alguien despliega a mano fuera del pipeline y el servicio entra en crash loop; el agente recupera el runbook, diagnostica con rol de solo lectura, y cuando intenta escribir la IAM lo frena en vivo. Tres: el fix vuelve por el pipeline, el agente guarda la lección, y al preguntarle qué pasó hoy la recupera. El repositorio queda público para que lo levanten en su propia cuenta.">
   <div class="diagwrap">
     <div class="kicker an">Demo en vivo</div>
