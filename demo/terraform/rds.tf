@@ -1,28 +1,33 @@
-# Motor relacional para la demo. Free tier: db.t4g.micro, 20 GB gp3.
-# La contrasena se genera sola y se guarda en Secrets Manager: no existe en el repo.
-
+# Motor relacional de la plataforma.
+#
+# Queda definido pero APAGADO: se enciende poniendo provisionar_postgres = true
+# en terraform.tfvars. Tarda entre 6 y 10 minutos en quedar disponible.
 resource "random_password" "db" {
+  count   = var.provisionar_postgres ? 1 : 0
   length  = 24
   special = false
 }
 
 resource "aws_secretsmanager_secret" "db" {
+  count                   = var.provisionar_postgres ? 1 : 0
   name                    = "${var.name}/postgres/master"
   description             = "Credencial del motor Postgres de la plataforma."
   recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "db" {
-  secret_id = aws_secretsmanager_secret.db.id
+  count     = var.provisionar_postgres ? 1 : 0
+  secret_id = aws_secretsmanager_secret.db[0].id
   secret_string = jsonencode({
     username = "dataplat"
-    password = random_password.db.result
+    password = random_password.db[0].result
     engine   = "postgres"
     port     = 5432
   })
 }
 
 resource "aws_security_group" "db" {
+  count       = var.provisionar_postgres ? 1 : 0
   name        = "${var.name}-postgres"
   description = "Acceso al motor Postgres"
   vpc_id      = aws_vpc.this.id
@@ -52,11 +57,13 @@ resource "aws_security_group" "db" {
 }
 
 resource "aws_db_subnet_group" "this" {
+  count      = var.provisionar_postgres ? 1 : 0
   name       = var.name
   subnet_ids = aws_subnet.public[*].id
 }
 
 resource "aws_db_instance" "postgres" {
+  count          = var.provisionar_postgres ? 1 : 0
   identifier     = "${var.name}-postgres"
   engine         = "postgres"
   engine_version = "16.15"
@@ -67,10 +74,10 @@ resource "aws_db_instance" "postgres" {
 
   db_name  = "plataforma"
   username = "dataplat"
-  password = random_password.db.result
+  password = random_password.db[0].result
 
-  db_subnet_group_name   = aws_db_subnet_group.this.name
-  vpc_security_group_ids = [aws_security_group.db.id]
+  db_subnet_group_name   = aws_db_subnet_group.this[0].name
+  vpc_security_group_ids = [aws_security_group.db[0].id]
   publicly_accessible    = true
 
   backup_retention_period = 0
@@ -81,5 +88,6 @@ resource "aws_db_instance" "postgres" {
 }
 
 output "postgres_host" {
-  value = aws_db_instance.postgres.address
+  description = "Vacio hasta que se provisione el motor."
+  value       = try(aws_db_instance.postgres[0].address, "")
 }

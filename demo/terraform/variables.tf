@@ -43,3 +43,9 @@ variable "budget_alert_email" {
   type    = string
   default = "" # se pasa por terraform.tfvars, no se publica
 }
+
+variable "provisionar_postgres" {
+  description = "Enciende el motor Postgres. Apagado por defecto: tarda 6-10 minutos en crearse."
+  type        = bool
+  default     = false
+}
