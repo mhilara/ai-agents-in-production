@@ -42,7 +42,7 @@ locals {
     "/bin/sh", "-c",
     join("", [
       "if [ -z \"$APP_MESSAGE\" ]; then echo 'FATAL: APP_MESSAGE no esta definida' >&2; exit 1; fi; ",
-      "cd /tmp; cat > index.html <<PAGE\n", local.pagina, "\nPAGE\n",
+      "cd /tmp; ARRANQUE=$(date +%s); printf '{\"servicio\":\"ingest-api\",\"version\":\"%s\",\"arranque\":%s}' \"$APP_VERSION\" \"$ARRANQUE\" > health.json; cat > index.html <<PAGE\n", replace(local.pagina, "ARRANQUE * 1000", "$ARRANQUE * 1000"), "\nPAGE\n",
       "echo \"listening on 8080, version $APP_VERSION\"; exec httpd -f -p 8080"
     ])
   ]
