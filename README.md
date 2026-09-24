@@ -99,17 +99,26 @@ El panel de Qdrant permite mirar el espacio vectorial, que es la parte que norma
 | **Visualize** | cada fragmento como un punto en 2D. Agrupá por `tipo` o por `sistema` y se ven los clusters: lo de Kafka junto, lo de Mongo junto, los recaps aparte |
 | **Graph** | la red de similitud entre fragmentos: qué documento se parece a cuál y por qué se recuperan juntos |
 
-En **Visualize**, este payload da buenos resultados:
+Los JSON exactos los imprime este script, leyendo el nombre real del vector desde el servidor:
 
-```json
-{ "limit": 300, "color_by": { "payload": "tipo" } }
+```bash
+.venv/bin/python scripts/qdrant_panel.py
 ```
 
-y para ver los clusters por motor de datos:
+**Graph** — la red de similitud:
 
 ```json
-{ "limit": 300, "color_by": { "payload": "sistema" } }
+{ "limit": 3, "sample": 32, "using": "fast-paraphrase-multilingual-minilm-l12-v2", "tree": false }
 ```
+
+**Visualize** — los clusters por motor de datos:
+
+```json
+{ "limit": 500, "using": "fast-paraphrase-multilingual-minilm-l12-v2", "color_by": { "payload": "sistema" } }
+```
+
+> El campo `using` no es opcional: esta colección usa un vector con nombre y sin él
+> la pestaña Graph devuelve cero pares y no dibuja nada.
 
 Cada punto lleva `tipo`, `sistema`, `titulo` y `origen`, así que al hacer clic se ve de qué archivo del
 repositorio salió.
